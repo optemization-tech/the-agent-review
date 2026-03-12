@@ -43,18 +43,30 @@
   </style>
   <style>
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+    .hero-gradient {
+      background: radial-gradient(ellipse 80% 50% at 50% -20%, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+    }
+    .hero-grid {
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, black 20%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse 60% 50% at 50% 50%, black 20%, transparent 80%);
+    }
   </style>
 </head>
 <body class="bg-surface text-gray-100 min-h-screen">
 
   <!-- Hero -->
-  <section id="hero" class="min-h-[80vh] flex items-center justify-center px-6">
-    <div class="text-center max-w-3xl mx-auto">
+  <section id="hero" class="relative min-h-[80vh] flex items-center justify-center px-6 overflow-hidden">
+    <div class="absolute inset-0 hero-gradient"></div>
+    <div class="absolute inset-0 hero-grid"></div>
+    <div class="relative text-center max-w-3xl mx-auto">
+      <p class="text-sm md:text-base text-accent-light font-medium tracking-wide uppercase mb-4">The AI agent landscape changes every week</p>
       <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">The Agent Review</h1>
-      <p class="text-xl md:text-2xl text-gray-400 mb-3">Find the right AI agent for your business in 30 seconds.</p>
-      <p class="text-sm text-gray-500 mb-10">8 curated agents. Updated weekly.</p>
+      <p class="text-xl md:text-2xl text-gray-400 mb-4">Find the right AI agent for your business in 30 seconds.</p>
+      <p class="text-sm text-gray-500 mb-10" id="agent-count">10 curated agents. Updated weekly.</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <button class="quiz-start-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg cursor-pointer">Take the Quiz</button>
+        <button class="quiz-start-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-all text-lg cursor-pointer shadow-lg shadow-accent/20 hover:shadow-accent/30">Take the Quiz</button>
         <a href="#directory" class="inline-block border border-border hover:border-accent-light text-gray-300 hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">Browse All Agents</a>
       </div>
     </div>
@@ -62,20 +74,23 @@
 
   <!-- Directory -->
   <section id="directory" class="max-w-6xl mx-auto px-6 py-20">
-    <h2 class="text-3xl md:text-4xl font-bold mb-3">Agent Directory</h2>
-    <p class="text-gray-400 mb-10">8 agents worth knowing about right now. Click any card to see the full breakdown.</p>
-    <div id="agent-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+    <div class="flex items-baseline justify-between mb-10">
+      <div>
+        <h2 class="text-3xl md:text-4xl font-bold mb-3">Agent Directory</h2>
+        <p class="text-gray-400">The agents worth knowing about right now. Click any card for the full breakdown.</p>
+      </div>
+      <span id="directory-count" class="text-sm text-gray-500 hidden md:block"></span>
+    </div>
+    <div id="agent-grid" class="grid grid-cols-1 md:grid-cols-2 gap-5"></div>
   </section>
 
-  <!-- Quiz -->
-  <section id="quiz" class="max-w-3xl mx-auto px-6 py-20">
-    <h2 class="text-3xl md:text-4xl font-bold mb-3">Find Your Agent</h2>
-    <p class="text-gray-400 mb-10">3 quick steps. Get a personalized recommendation.</p>
-    <div id="quiz-container" class="min-h-[300px]"></div>
+  <!-- Quiz CTA -->
+  <section id="quiz" class="max-w-3xl mx-auto px-6 py-16">
+    <div id="quiz-container"></div>
   </section>
 
   <!-- Footer -->
-  <footer class="border-t border-border mt-20 py-12 px-6">
+  <footer class="border-t border-border mt-10 py-12 px-6">
     <div class="max-w-6xl mx-auto text-center">
       <p class="text-gray-400">Built by <a href="https://optemization.com" target="_blank" rel="noopener" class="text-accent-light hover:text-white transition-colors">Optemization</a> — we design and build AI agent systems for businesses.</p>
     </div>
@@ -122,9 +137,18 @@ let openCard = null;
 
 function renderDirectory() {
   const grid = document.getElementById('agent-grid');
+  const agentEntries = Object.entries(KB.agents);
+  const count = agentEntries.length;
+
+  // Update counts dynamically
+  const countEl = document.getElementById('directory-count');
+  if (countEl) countEl.textContent = `${count} agents`;
+  const heroCount = document.getElementById('agent-count');
+  if (heroCount) heroCount.textContent = `${count} curated agents. Updated weekly.`;
+
   let html = '';
 
-  for (const [key, agent] of Object.entries(KB.agents)) {
+  for (const [key, agent] of agentEntries) {
     const cat = KB.category_colors[agent.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
     const tech = KB.tech_labels[agent.technical_level] || { label: agent.technical_level, bg: 'bg-gray-500/10', text: 'text-gray-400' };
 
@@ -180,9 +204,10 @@ function renderQuizStart() {
   const container = document.getElementById('quiz-container');
   if (!container) return;
   container.innerHTML = `
-    <div class="text-center py-12">
-      <p class="text-gray-400 mb-6 text-lg">3 quick steps. Get a personalized recommendation.</p>
-      <button class="quiz-start-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg cursor-pointer">Start the Quiz</button>
+    <div class="bg-card border border-border rounded-2xl p-8 md:p-12 text-center">
+      <h3 class="text-2xl md:text-3xl font-bold mb-3">Not sure which agent is right for you?</h3>
+      <p class="text-gray-400 mb-8 max-w-lg mx-auto">Answer 3 quick questions and get a personalized recommendation with a ready-to-paste starter prompt.</p>
+      <button class="quiz-start-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-all text-lg cursor-pointer shadow-lg shadow-accent/20 hover:shadow-accent/30">Take the Quiz</button>
     </div>`;
 }
 
