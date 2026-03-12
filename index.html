@@ -54,7 +54,7 @@
       <p class="text-xl md:text-2xl text-gray-400 mb-3">Find the right AI agent for your business in 30 seconds.</p>
       <p class="text-sm text-gray-500 mb-10">8 curated agents. Updated weekly.</p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
-        <a href="#quiz" class="inline-block bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">Take the Quiz</a>
+        <button class="quiz-start-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg cursor-pointer">Take the Quiz</button>
         <a href="#directory" class="inline-block border border-border hover:border-accent-light text-gray-300 hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">Browse All Agents</a>
       </div>
     </div>
@@ -70,7 +70,7 @@
   <!-- Quiz -->
   <section id="quiz" class="max-w-3xl mx-auto px-6 py-20">
     <h2 class="text-3xl md:text-4xl font-bold mb-3">Find Your Agent</h2>
-    <p class="text-gray-400 mb-10">Answer 1-2 questions. Get a recommendation in under 30 seconds.</p>
+    <p class="text-gray-400 mb-10">3 quick steps. Get a personalized recommendation.</p>
     <div id="quiz-container" class="min-h-[300px]"></div>
   </section>
 
@@ -81,189 +81,42 @@
     </div>
   </footer>
 
+  <!-- Quiz Fullscreen Overlay -->
+  <div id="quiz-overlay" class="fixed inset-0 z-50 bg-surface overflow-y-auto hidden">
+    <div class="min-h-screen flex flex-col">
+      <!-- Top bar -->
+      <div class="flex items-center justify-between px-6 py-4 border-b border-border">
+        <button id="quiz-close-btn" class="text-gray-500 hover:text-gray-300 transition-colors cursor-pointer text-sm">← Back to site</button>
+        <div id="quiz-progress" class="flex gap-1.5"></div>
+        <div class="w-20"></div>
+      </div>
+      <!-- Quiz content -->
+      <div class="flex-1 flex items-center justify-center px-6 py-12">
+        <div id="quiz-content" class="w-full max-w-2xl"></div>
+      </div>
+    </div>
+  </div>
+
 <script>
-// ─── DATA ────────────────────────────────────────────────────────────────────
+// ─── KB LOADER ──────────────────────────────────────────────────────────────
 
-const AGENTS = {
-  manus: {
-    name: "Manus (Meta)",
-    category: "Paid Ads",
-    summary: "Embedded inside Meta Ads Manager since Feb 2026. Handles report building, audience research, competitor analysis. Already in your ad account — no setup.",
-    best_for: "Meta advertisers who want automated reporting and competitive intel",
-    limitations: "Meta-only, currently prone to hallucination, opaque data layer",
-    cost: "Included with Meta Ads Manager",
-    technical_level: "none",
-    persistence: false
-  },
-  claude_cowork: {
-    name: "Claude Cowork",
-    category: "Desktop / File Workflows",
-    summary: "Sandboxed desktop agent for document and file automation. You define a folder, describe an outcome, it executes multi-step tasks. Built by Anthropic.",
-    best_for: "Knowledge workers automating document-heavy workflows without touching a terminal",
-    limitations: "No persistent memory between sessions, no messaging app integration, requires Pro/Max plan",
-    cost: "$20\u2013100/mo (Claude Pro or Max)",
-    technical_level: "low",
-    persistence: false
-  },
-  openclaw: {
-    name: "OpenClaw",
-    category: "Always-On Automation",
-    summary: "Open-source 24/7 agent running on your machine or a VPS. Communicates via WhatsApp, Telegram, Slack, iMessage. Persistent memory across weeks. Model-agnostic.",
-    best_for: "Always-on personal or business automation, cross-app life OS, technical users",
-    limitations: "Real security risks (prompt injection, malicious community skills), requires Docker/VPS setup",
-    cost: "Free software + API costs ($5\u2013150/mo)",
-    technical_level: "high",
-    persistence: true
-  },
-  notion_custom_agents: {
-    name: "Notion Custom Agents",
-    category: "Knowledge Management",
-    summary: "Agent layer inside Notion that pulls workspace context and runs multi-step tasks across connected integrations.",
-    best_for: "Teams already living in Notion who want agentic workflows without leaving the ecosystem",
-    limitations: "Notion Business plan required, degrades at 10k+ rows, limited to Notion ecosystem",
-    cost: "Included in Notion Business plan",
-    technical_level: "low",
-    persistence: false
-  },
-  claude_code: {
-    name: "Claude Code",
-    category: "Software Development",
-    summary: "Terminal-native coding agent by Anthropic. Deep code reasoning, best-in-class for multi-file refactors. Lives in your terminal or IDE.",
-    best_for: "Developers doing complex code work, refactoring, or building agentic applications",
-    limitations: "Developer-only, no persistent memory between sessions",
-    cost: "Included with Claude Max ($100/mo) or API",
-    technical_level: "developer",
-    persistence: false
-  },
-  codex: {
-    name: "Codex (OpenAI)",
-    category: "Software Development",
-    summary: "Cloud-first coding agent by OpenAI. Strong on long-horizon planning and parallel subtasks.",
-    best_for: "Developers in the OpenAI ecosystem, complex multi-file architectures",
-    limitations: "Cloud-only, local CLI lags Claude Code on latency",
-    cost: "ChatGPT Pro or API",
-    technical_level: "developer",
-    persistence: false
-  },
-  perplexity_computer: {
-    name: "Perplexity Computer",
-    category: "Research / Cross-Platform",
-    summary: "General-purpose digital worker that routes tasks across 19 AI models. Designed for long-running research and cross-app work.",
-    best_for: "Deep research, competitive intelligence, cross-platform tasks where you want the best model per subtask",
-    limitations: "Plans start at $200+/mo with additional AI credits",
-    cost: "$200+/mo",
-    technical_level: "low",
-    persistence: true
-  },
-  n8n_custom: {
-    name: "Custom Agent (n8n + Claude API)",
-    category: "Custom / Enterprise",
-    summary: "Build your own agent orchestration layer using n8n workflows + Claude API. Full control over logic, memory, integrations, and triggers.",
-    best_for: "Businesses with specific workflows that no off-the-shelf tool handles well",
-    limitations: "Requires design and build time \u2014 this is a project, not a product",
-    cost: "n8n license + API costs (varies)",
-    technical_level: "requires implementation partner",
-    persistence: true
+let KB = null;
+
+async function loadKB() {
+  try {
+    const response = await fetch('./knowledge-base.json');
+    if (!response.ok) throw new Error('Failed to load knowledge base');
+    KB = await response.json();
+    renderDirectory();
+    renderQuizStart();
+  } catch (err) {
+    console.error('KB load failed:', err);
+    document.getElementById('agent-grid').innerHTML =
+      '<p class="text-gray-400 col-span-full text-center py-12">Unable to load agent data. Please refresh the page.</p>';
   }
-};
+}
 
-const CATEGORY_COLORS = {
-  "Paid Ads": { bg: "bg-rose-500/10", text: "text-rose-400", border: "border-rose-500/20" },
-  "Desktop / File Workflows": { bg: "bg-blue-500/10", text: "text-blue-400", border: "border-blue-500/20" },
-  "Always-On Automation": { bg: "bg-amber-500/10", text: "text-amber-400", border: "border-amber-500/20" },
-  "Knowledge Management": { bg: "bg-emerald-500/10", text: "text-emerald-400", border: "border-emerald-500/20" },
-  "Software Development": { bg: "bg-violet-500/10", text: "text-violet-400", border: "border-violet-500/20" },
-  "Research / Cross-Platform": { bg: "bg-cyan-500/10", text: "text-cyan-400", border: "border-cyan-500/20" },
-  "Custom / Enterprise": { bg: "bg-orange-500/10", text: "text-orange-400", border: "border-orange-500/20" }
-};
-
-const TECH_LABELS = {
-  none: { label: "No setup required", bg: "bg-emerald-500/10", text: "text-emerald-400" },
-  low: { label: "Low technical", bg: "bg-blue-500/10", text: "text-blue-400" },
-  high: { label: "Technical setup", bg: "bg-amber-500/10", text: "text-amber-400" },
-  developer: { label: "Developer tool", bg: "bg-violet-500/10", text: "text-violet-400" },
-  "requires implementation partner": { label: "Needs implementation partner", bg: "bg-orange-500/10", text: "text-orange-400" }
-};
-
-const QUIZ_TREE = {
-  step1: {
-    question: "What kind of work do you need an AI agent for?",
-    step: 1,
-    totalSteps: "1\u20132",
-    options: [
-      { icon: "\ud83d\udcb0", label: "Running & analyzing paid ads", next: null, result: ["manus", "perplexity_computer"] },
-      { icon: "\ud83d\udcc1", label: "Files, documents & desktop workflows", next: null, result: ["claude_cowork"] },
-      { icon: "\ud83d\udcbb", label: "Code & software development", next: "step2a" },
-      { icon: "\u26a1", label: "Always-on personal/business automation", next: "step2b" },
-      { icon: "\ud83e\udde0", label: "Knowledge management & project execution", next: "step2c" },
-      { icon: "\ud83d\udd27", label: "Build a custom multi-agent system", next: null, result: ["n8n_custom"] }
-    ]
-  },
-  step2a: {
-    question: "Which AI ecosystem do you prefer?",
-    step: 2,
-    totalSteps: 2,
-    options: [
-      { icon: "\ud83d\udd36", label: "Anthropic (Claude)", next: null, result: ["claude_code"] },
-      { icon: "\ud83d\udfe2", label: "OpenAI", next: null, result: ["codex"] }
-    ]
-  },
-  step2b: {
-    question: "How technical are you (or your team)?",
-    step: 2,
-    totalSteps: 2,
-    options: [
-      { icon: "\ud83d\ude80", label: "I can handle Docker, APIs, and config files", next: null, result: ["openclaw"] },
-      { icon: "\u2728", label: "I want something that just works", next: null, result: ["claude_cowork"] }
-    ]
-  },
-  step2c: {
-    question: "Are you already using Notion?",
-    step: 2,
-    totalSteps: 2,
-    options: [
-      { icon: "\u2705", label: "Yes, my team lives in Notion", next: null, result: ["notion_custom_agents"] },
-      { icon: "\ud83d\udeab", label: "No, or just getting started", next: null, result: ["claude_cowork", "perplexity_computer"] }
-    ]
-  }
-};
-
-const RESULT_PITCHES = {
-  "manus,perplexity_computer": {
-    complexity: "Manus is already in your Meta Ads Manager \u2014 zero setup. Perplexity requires a paid plan.",
-    pitch: "We help teams integrate AI agents into their existing marketing stack so nothing falls through the cracks."
-  },
-  "claude_cowork": {
-    complexity: "Sign up for Claude Pro or Max and you're running in minutes.",
-    pitch: "We can define the workflows, build the skills, and set up the guardrails so this runs reliably."
-  },
-  "claude_code": {
-    complexity: "Install the CLI, connect your API key, and start coding. Developer setup takes 10 minutes.",
-    pitch: "We use Claude Code daily to build agentic systems for clients. We can help you get the most out of it."
-  },
-  "codex": {
-    complexity: "Available through ChatGPT Pro or the OpenAI API. Cloud-first \u2014 no local install needed.",
-    pitch: "We\u2019re model-agnostic. If your team is in the OpenAI ecosystem, we\u2019ll build on top of it."
-  },
-  "openclaw": {
-    complexity: "Requires Docker or a VPS, API keys, and comfort with config files. Plan for an afternoon of setup.",
-    pitch: "We can define the workflows, build the skills, and set up the guardrails so this runs reliably."
-  },
-  "notion_custom_agents": {
-    complexity: "Available now on Notion Business. Turn it on in settings and start building agents.",
-    pitch: "We\u2019ve designed agent-ready Notion workspaces for 80+ clients. We know where the edges are."
-  },
-  "claude_cowork,perplexity_computer": {
-    complexity: "Claude Cowork runs on your desktop. Perplexity handles deeper research tasks in the cloud.",
-    pitch: "We help teams pick the right combination of tools and integrate them into a single workflow."
-  },
-  "n8n_custom": {
-    complexity: "This requires custom architecture \u2014 it\u2019s a project, not a product. Plan for weeks, not hours.",
-    pitch: "This is exactly what we build. We design the architecture so your agent actually compounds over time."
-  }
-};
-
-// ─── STATE + RENDERING ───────────────────────────────────────────────────────
+// ─── DIRECTORY ──────────────────────────────────────────────────────────────
 
 let openCard = null;
 
@@ -271,9 +124,9 @@ function renderDirectory() {
   const grid = document.getElementById('agent-grid');
   let html = '';
 
-  for (const [key, agent] of Object.entries(AGENTS)) {
-    const cat = CATEGORY_COLORS[agent.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
-    const tech = TECH_LABELS[agent.technical_level] || { label: agent.technical_level, bg: 'bg-gray-500/10', text: 'text-gray-400' };
+  for (const [key, agent] of Object.entries(KB.agents)) {
+    const cat = KB.category_colors[agent.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
+    const tech = KB.tech_labels[agent.technical_level] || { label: agent.technical_level, bg: 'bg-gray-500/10', text: 'text-gray-400' };
 
     html += `
       <div class="bg-card border border-border rounded-xl p-6 cursor-pointer transition-all hover:border-accent-light hover:bg-card-hover group" data-card-key="${key}">
@@ -321,140 +174,459 @@ function toggleCard(key) {
   openCard = isHidden ? key : null;
 }
 
-// ─── QUIZ ────────────────────────────────────────────────────────────────────
+// ─── QUIZ START (inline section — opens fullscreen overlay) ─────────────────
 
-const quizState = { currentStep: null, answers: [], result: null };
-
-function startQuiz() {
-  quizState.currentStep = 'step1';
-  quizState.answers = [];
-  quizState.result = null;
-  renderQuiz();
+function renderQuizStart() {
+  const container = document.getElementById('quiz-container');
+  if (!container) return;
+  container.innerHTML = `
+    <div class="text-center py-12">
+      <p class="text-gray-400 mb-6 text-lg">3 quick steps. Get a personalized recommendation.</p>
+      <button class="quiz-start-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg cursor-pointer">Start the Quiz</button>
+    </div>`;
 }
 
-function renderQuiz() {
-  const container = document.getElementById('quiz-container');
+// ─── QUIZ ENGINE ────────────────────────────────────────────────────────────
 
-  if (!quizState.currentStep && !quizState.result) {
-    container.innerHTML = `
-      <div class="text-center py-12">
-        <p class="text-gray-400 mb-6 text-lg">1\u20132 questions. Takes under 30 seconds.</p>
-        <button class="quiz-start-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg cursor-pointer">Start the Quiz</button>
-      </div>`;
-    return;
+const quiz = {
+  step: 0,            // 0 = not started, 1 = tasks, 2 = tools, 3 = freetext, 4 = loading, 5 = result
+  selectedTasks: [],  // indices into KB.quiz.tasks
+  selectedTools: [],  // indices into KB.quiz.tools
+  freeText: '',
+  scores: {},         // agent_slug -> total score
+  topAgent: null,
+  runnerUp: null,
+  aiResult: null      // { recommendation, starter_prompt } from API
+};
+
+function openQuiz() {
+  quiz.step = 1;
+  quiz.selectedTasks = [];
+  quiz.selectedTools = [];
+  quiz.freeText = '';
+  quiz.scores = {};
+  quiz.topAgent = null;
+  quiz.runnerUp = null;
+  quiz.aiResult = null;
+  document.getElementById('quiz-overlay').classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  renderQuizStep();
+}
+
+function closeQuiz() {
+  document.getElementById('quiz-overlay').classList.add('hidden');
+  document.body.style.overflow = '';
+}
+
+function renderProgress() {
+  const bar = document.getElementById('quiz-progress');
+  const totalSteps = 3;
+  let dots = '';
+  for (let i = 1; i <= totalSteps; i++) {
+    const active = i <= quiz.step;
+    dots += `<div class="w-8 h-1.5 rounded-full ${active ? 'bg-accent' : 'bg-border'}"></div>`;
   }
+  bar.innerHTML = dots;
+}
 
-  if (quizState.result) {
-    renderResult(quizState.result);
-    return;
+function renderQuizStep() {
+  renderProgress();
+  const content = document.getElementById('quiz-content');
+
+  if (quiz.step === 1) {
+    renderMultiSelect(content, {
+      question: "What tasks do you want to get rid of?",
+      subtitle: "Select all that apply",
+      options: KB.quiz.tasks,
+      selected: quiz.selectedTasks,
+      onToggle: (i) => {
+        const idx = quiz.selectedTasks.indexOf(i);
+        if (idx === -1) quiz.selectedTasks.push(i);
+        else quiz.selectedTasks.splice(idx, 1);
+        renderQuizStep();
+      },
+      onNext: () => { quiz.step = 2; renderQuizStep(); },
+      onBack: null,
+      canProceed: quiz.selectedTasks.length > 0
+    });
+  } else if (quiz.step === 2) {
+    renderMultiSelect(content, {
+      question: "What tools do you already use?",
+      subtitle: "Select all that apply",
+      options: KB.quiz.tools,
+      selected: quiz.selectedTools,
+      onToggle: (i) => {
+        const idx = quiz.selectedTools.indexOf(i);
+        if (idx === -1) quiz.selectedTools.push(i);
+        else quiz.selectedTools.splice(idx, 1);
+        renderQuizStep();
+      },
+      onNext: () => { calculateScores(); quiz.step = 3; renderQuizStep(); },
+      onBack: () => { quiz.step = 1; renderQuizStep(); },
+      canProceed: true
+    });
+  } else if (quiz.step === 3) {
+    renderFreeText(content);
+  } else if (quiz.step === 4) {
+    renderLoading(content);
+  } else if (quiz.step === 5) {
+    renderResultScreen(content);
   }
+}
 
-  const step = QUIZ_TREE[quizState.currentStep];
-  if (!step) return;
-
+function renderMultiSelect(container, { question, subtitle, options, selected, onToggle, onNext, onBack, canProceed }) {
   let optionsHtml = '';
-  step.options.forEach((opt, i) => {
+  options.forEach((opt, i) => {
+    const isSelected = selected.includes(i);
+    const selectedClass = isSelected ? 'border-accent bg-accent/10' : 'border-border';
     optionsHtml += `
-      <button class="quiz-option" data-option-index="${i}">
-        <div class="flex items-center gap-4">
-          <span class="text-2xl">${opt.icon}</span>
-          <span class="text-base font-medium text-gray-200">${opt.label}</span>
-        </div>
+      <button class="quiz-option ${selectedClass} flex items-center gap-4" data-ms-index="${i}">
+        <span class="text-2xl">${opt.icon}</span>
+        <span class="text-base font-medium text-gray-200 flex-1 text-left">${opt.label}</span>
+        ${isSelected ? '<svg class="w-5 h-5 text-accent-light" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>' : '<div class="w-5 h-5 rounded border border-border"></div>'}
       </button>`;
   });
 
   container.innerHTML = `
     <div>
-      <div class="flex items-center justify-between mb-6">
-        <p class="text-sm text-gray-500">Step ${step.step} of ${step.totalSteps}</p>
-        ${step.step > 1 ? '<button class="quiz-back-btn text-sm text-gray-500 hover:text-gray-300 transition-colors cursor-pointer">\u2190 Back</button>' : ''}
-      </div>
-      <h3 class="text-xl md:text-2xl font-semibold mb-6">${step.question}</h3>
-      <div class="grid gap-3">${optionsHtml}</div>
+      ${onBack ? '<button class="quiz-back-btn text-sm text-gray-500 hover:text-gray-300 transition-colors cursor-pointer mb-6">← Back</button>' : ''}
+      <h3 class="text-2xl md:text-3xl font-bold mb-2">${question}</h3>
+      <p class="text-gray-500 mb-8">${subtitle}</p>
+      <div class="grid gap-3 mb-8">${optionsHtml}</div>
+      <button class="quiz-next-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg cursor-pointer w-full sm:w-auto ${canProceed ? '' : 'opacity-40 cursor-not-allowed'}" ${canProceed ? '' : 'disabled'}>Next</button>
     </div>`;
+
+  container.querySelectorAll('[data-ms-index]').forEach(btn => {
+    btn.addEventListener('click', () => onToggle(parseInt(btn.dataset.msIndex)));
+  });
+  container.querySelector('.quiz-next-btn')?.addEventListener('click', () => { if (canProceed) onNext(); });
+  container.querySelector('.quiz-back-btn')?.addEventListener('click', () => onBack?.());
 }
 
-function selectOption(stepId, option) {
-  quizState.answers.push({ step: stepId, choice: option.label });
+function calculateScores() {
+  quiz.scores = {};
 
-  if (option.next) {
-    quizState.currentStep = option.next;
-    renderQuiz();
-  } else if (option.result) {
-    quizState.currentStep = null;
-    quizState.result = option.result;
-    renderQuiz();
+  quiz.selectedTasks.forEach(i => {
+    const task = KB.quiz.tasks[i];
+    if (task?.agent_scores) {
+      for (const [agent, weight] of Object.entries(task.agent_scores)) {
+        quiz.scores[agent] = (quiz.scores[agent] || 0) + weight;
+      }
+    }
+  });
+
+  quiz.selectedTools.forEach(i => {
+    const tool = KB.quiz.tools[i];
+    if (tool?.agent_scores) {
+      for (const [agent, weight] of Object.entries(tool.agent_scores)) {
+        quiz.scores[agent] = (quiz.scores[agent] || 0) + weight;
+      }
+    }
+  });
+
+  const sorted = Object.entries(quiz.scores).sort((a, b) => b[1] - a[1]);
+  quiz.topAgent = sorted[0]?.[0] || null;
+  quiz.runnerUp = null;
+
+  if (sorted.length >= 2 && sorted[0][1] > 0) {
+    const topScore = sorted[0][1];
+    if (sorted[1][1] >= topScore * 0.6) {
+      quiz.runnerUp = sorted[1][0];
+    }
   }
 }
 
-function renderResult(agentKeys) {
-  const container = document.getElementById('quiz-container');
-  const pitchKey = agentKeys.join(',');
-  const pitch = RESULT_PITCHES[pitchKey] || { complexity: '', pitch: '' };
-  const primary = AGENTS[agentKeys[0]];
-  const secondary = agentKeys.length > 1 ? AGENTS[agentKeys[1]] : null;
+// ─── STEP 3: FREE-TEXT ──────────────────────────────────────────────────────
 
-  const primaryCat = CATEGORY_COLORS[primary.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
+function renderFreeText(container) {
+  const suggestions = [];
+  if (quiz.topAgent && KB.agents[quiz.topAgent]?.suggested_prompts) {
+    suggestions.push(...KB.agents[quiz.topAgent].suggested_prompts.slice(0, 2));
+  }
+  if (quiz.runnerUp && KB.agents[quiz.runnerUp]?.suggested_prompts) {
+    suggestions.push(KB.agents[quiz.runnerUp].suggested_prompts[0]);
+  }
+
+  let suggestionsHtml = '';
+  if (suggestions.length > 0) {
+    suggestionsHtml = `
+      <p class="text-sm text-gray-500 mb-3">Try something like:</p>
+      <div class="flex flex-wrap gap-2 mb-4">
+        ${suggestions.map(s => `<button class="suggestion-btn text-xs bg-card border border-border rounded-full px-4 py-2 text-gray-400 hover:text-white hover:border-accent-light transition-colors cursor-pointer">${s}</button>`).join('')}
+      </div>`;
+  }
+
+  container.innerHTML = `
+    <div>
+      <button class="quiz-back-btn text-sm text-gray-500 hover:text-gray-300 transition-colors cursor-pointer mb-6">← Back</button>
+      <h3 class="text-2xl md:text-3xl font-bold mb-2">Tell us more</h3>
+      <p class="text-gray-500 mb-6">Describe what you'd want an AI agent to do for you. The more specific, the better your recommendation.</p>
+      ${suggestionsHtml}
+      <textarea id="quiz-freetext" class="w-full bg-card border border-border rounded-xl p-4 text-gray-200 placeholder-gray-600 focus:border-accent-light focus:outline-none transition-colors resize-none" rows="4" placeholder="e.g., I want to automate my weekly team status reports by pulling updates from Slack and Notion...">${quiz.freeText}</textarea>
+      <div class="flex flex-col sm:flex-row gap-3 mt-6">
+        <button class="quiz-submit-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg cursor-pointer flex-1 sm:flex-initial">Get My Recommendation</button>
+        <button class="quiz-skip-btn border border-border hover:border-accent-light text-gray-400 hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors cursor-pointer">Skip</button>
+      </div>
+    </div>`;
+
+  container.querySelector('.quiz-back-btn').addEventListener('click', () => {
+    quiz.freeText = document.getElementById('quiz-freetext')?.value || '';
+    quiz.step = 2;
+    renderQuizStep();
+  });
+
+  container.querySelectorAll('.suggestion-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.getElementById('quiz-freetext').value = btn.textContent;
+    });
+  });
+
+  container.querySelector('.quiz-submit-btn').addEventListener('click', () => {
+    quiz.freeText = document.getElementById('quiz-freetext')?.value || '';
+    if (quiz.freeText.trim()) {
+      quiz.step = 4;
+      renderQuizStep();
+      callRecommendationAPI();
+    } else {
+      quiz.step = 5;
+      renderQuizStep();
+    }
+  });
+
+  container.querySelector('.quiz-skip-btn').addEventListener('click', () => {
+    quiz.freeText = '';
+    quiz.step = 5;
+    renderQuizStep();
+  });
+}
+
+// ─── LOADING STATE ──────────────────────────────────────────────────────────
+
+const THINKING_PHRASES = [
+  "Analyzing your needs...",
+  "Matching you with the right agent...",
+  "Crafting your starter prompt..."
+];
+
+function renderLoading(container) {
+  container.innerHTML = `
+    <div class="text-center py-20">
+      <div class="inline-block w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin mb-6"></div>
+      <p id="thinking-phrase" class="text-lg text-gray-400"></p>
+    </div>`;
+
+  let phraseIdx = 0;
+  const phraseEl = document.getElementById('thinking-phrase');
+  phraseEl.textContent = THINKING_PHRASES[0];
+
+  const interval = setInterval(() => {
+    phraseIdx = (phraseIdx + 1) % THINKING_PHRASES.length;
+    phraseEl.textContent = THINKING_PHRASES[phraseIdx];
+  }, 3000);
+
+  container._loadingInterval = interval;
+}
+
+function stopLoading() {
+  const container = document.getElementById('quiz-content');
+  if (container._loadingInterval) {
+    clearInterval(container._loadingInterval);
+    delete container._loadingInterval;
+  }
+}
+
+// ─── API CALL ───────────────────────────────────────────────────────────────
+
+const PROXY_URL = ''; // Set to Cloudflare Worker URL after deployment
+
+async function callRecommendationAPI() {
+  if (!PROXY_URL || !KB.quiz.api_config.enabled) {
+    stopLoading();
+    quiz.step = 5;
+    renderQuizStep();
+    return;
+  }
+
+  const selectedTaskLabels = quiz.selectedTasks.map(i => KB.quiz.tasks[i].label);
+  const selectedToolLabels = quiz.selectedTools.map(i => KB.quiz.tools[i].label);
+
+  const payload = {
+    selected_tasks: selectedTaskLabels,
+    selected_tools: selectedToolLabels,
+    user_text: quiz.freeText,
+    top_agent: quiz.topAgent
+  };
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 15000);
+
+  try {
+    const res = await fetch(PROXY_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    clearTimeout(timeout);
+
+    if (!res.ok) throw new Error('API request failed');
+
+    const data = await res.json();
+    quiz.aiResult = {
+      recommendation: data.recommendation || null,
+      starter_prompt: data.starter_prompt || null
+    };
+  } catch (err) {
+    console.warn('API call failed, using deterministic result:', err);
+    quiz.aiResult = null;
+  }
+
+  stopLoading();
+  quiz.step = 5;
+  renderQuizStep();
+}
+
+// ─── RESULT SCREEN ──────────────────────────────────────────────────────────
+
+function renderResultScreen(container) {
+  if (!quiz.topAgent) {
+    container.innerHTML = `
+      <div class="text-center py-12">
+        <h3 class="text-2xl font-bold mb-4">Explore the Directory</h3>
+        <p class="text-gray-400 mb-8">We couldn't narrow it down based on your selections. Browse all 8 agents to find the right fit.</p>
+        <button class="quiz-close-action bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg cursor-pointer">Browse All Agents</button>
+      </div>`;
+    container.querySelector('.quiz-close-action')?.addEventListener('click', () => {
+      closeQuiz();
+      document.getElementById('directory').scrollIntoView({ behavior: 'smooth' });
+    });
+    return;
+  }
+
+  const agent = KB.agents[quiz.topAgent];
+  const pitch = KB.pitches[quiz.topAgent] || { complexity: '', pitch: '' };
+  const cat = KB.category_colors[agent.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
+
+  const recText = quiz.aiResult?.recommendation || agent.best_for;
+  const starterPrompt = quiz.aiResult?.starter_prompt || agent.starter_prompt;
+  const steps = agent.getting_started_steps || [];
 
   let html = `
-    <div>
-      <h3 class="text-2xl font-bold mb-6">Your Recommendation</h3>
+    <div class="max-w-2xl mx-auto">
+      <h3 class="text-2xl md:text-3xl font-bold mb-8">Your Recommendation</h3>
 
       <!-- Primary agent -->
-      <div class="border-2 border-accent rounded-xl p-6 mb-4">
+      <div class="border-2 border-accent rounded-xl p-6 mb-5">
         <div class="flex flex-wrap items-center gap-3 mb-3">
-          <h4 class="text-xl font-semibold text-white">${primary.name}</h4>
-          <span class="text-xs px-2.5 py-1 rounded-full ${primaryCat.bg} ${primaryCat.text} border ${primaryCat.border}">${primary.category}</span>
+          <h4 class="text-xl font-semibold text-white">${agent.name}</h4>
+          <span class="text-xs px-2.5 py-1 rounded-full ${cat.bg} ${cat.text} border ${cat.border}">${agent.category}</span>
         </div>
-        <p class="text-gray-300 mb-4">${primary.summary}</p>
-        <div class="space-y-2 text-sm">
-          <div><span class="text-gray-500 font-medium">Best for:</span> <span class="text-gray-300">${primary.best_for}</span></div>
-          <div><span class="text-gray-500 font-medium">Cost:</span> <span class="text-gray-300">${primary.cost}</span></div>
-        </div>
+        <p class="text-gray-300 leading-relaxed">${recText}</p>
       </div>`;
 
-  if (secondary) {
-    const secCat = CATEGORY_COLORS[secondary.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
+  if (quiz.runnerUp) {
+    const sec = KB.agents[quiz.runnerUp];
+    const secCat = KB.category_colors[sec.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
     html += `
-      <!-- Secondary agent -->
-      <div class="border border-border rounded-xl p-6 mb-4">
+      <div class="border border-border rounded-xl p-5 mb-5">
+        <p class="text-xs text-gray-500 uppercase tracking-wider font-medium mb-2">Also Consider</p>
         <div class="flex flex-wrap items-center gap-3 mb-2">
-          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Also Consider</p>
+          <h4 class="text-lg font-semibold text-white">${sec.name}</h4>
+          <span class="text-xs px-2.5 py-1 rounded-full ${secCat.bg} ${secCat.text} border ${secCat.border}">${sec.category}</span>
         </div>
-        <div class="flex flex-wrap items-center gap-3 mb-3">
-          <h4 class="text-lg font-semibold text-white">${secondary.name}</h4>
-          <span class="text-xs px-2.5 py-1 rounded-full ${secCat.bg} ${secCat.text} border ${secCat.border}">${secondary.category}</span>
+        <p class="text-gray-400 text-sm">${sec.summary}</p>
+      </div>`;
+  }
+
+  if (pitch.complexity) {
+    html += `
+      <div class="bg-amber-500/5 border border-amber-500/20 rounded-xl p-5 mb-5">
+        <p class="text-sm text-amber-300"><span class="font-medium">Getting started:</span> ${pitch.complexity}</p>
+      </div>`;
+  }
+
+  if (steps.length > 0) {
+    html += `
+      <div class="bg-card border border-border rounded-xl p-5 mb-5">
+        <h5 class="text-sm font-semibold text-white mb-3">How to start</h5>
+        <ol class="space-y-2 text-sm text-gray-300">
+          ${steps.map((s, i) => {
+            if (i === 0 && agent.setup_url) {
+              return `<li class="flex gap-3"><span class="text-accent-light font-medium">${i+1}.</span><span><a href="${agent.setup_url}" target="_blank" rel="noopener" class="text-accent-light hover:text-white underline">${s}</a></span></li>`;
+            }
+            return `<li class="flex gap-3"><span class="text-accent-light font-medium">${i+1}.</span><span>${s}</span></li>`;
+          }).join('')}
+        </ol>
+      </div>`;
+  }
+
+  if (starterPrompt && !starterPrompt.startsWith('This agent is custom-built')) {
+    html += `
+      <div class="bg-card border border-border rounded-xl p-5 mb-5">
+        <div class="flex items-center justify-between mb-3">
+          <h5 class="text-sm font-semibold text-white">Your starter prompt</h5>
+          <button class="copy-prompt-btn text-xs bg-accent/20 hover:bg-accent/40 text-accent-light px-3 py-1.5 rounded-lg transition-colors cursor-pointer">Copy</button>
         </div>
-        <p class="text-gray-400 text-sm">${secondary.summary}</p>
+        <pre class="text-sm text-gray-300 bg-surface rounded-lg p-4 whitespace-pre-wrap font-sans leading-relaxed">${starterPrompt}</pre>
+      </div>`;
+  }
+
+  if (pitch.pitch) {
+    html += `
+      <div class="bg-accent/5 border border-accent/20 rounded-xl p-5 mb-6">
+        <p class="text-sm text-accent-light">${pitch.pitch}</p>
+      </div>`;
+  }
+
+  if (quiz.freeText && !quiz.aiResult) {
+    html += `
+      <div class="bg-card border border-amber-500/20 rounded-xl p-5 mb-5">
+        <p class="text-sm text-amber-300 mb-3">We're experiencing high traffic. Leave your email for a personalized deep-dive recommendation.</p>
+        <div class="flex gap-2">
+          <input id="email-capture" type="email" placeholder="you@company.com" class="flex-1 bg-surface border border-border rounded-lg px-4 py-2 text-sm text-gray-200 placeholder-gray-600 focus:border-accent-light focus:outline-none" />
+          <button class="email-submit-btn bg-accent hover:bg-accent-light text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors cursor-pointer">Send</button>
+        </div>
+        <p id="email-confirm" class="text-xs text-emerald-400 mt-2 hidden">Thanks! We'll follow up within 24 hours.</p>
       </div>`;
   }
 
   html += `
-      <!-- Complexity callout -->
-      <div class="bg-amber-500/5 border border-amber-500/20 rounded-xl p-5 mb-4">
-        <p class="text-sm text-amber-300"><span class="font-medium">Complexity:</span> ${pitch.complexity}</p>
-      </div>
-
-      <!-- Optemization pitch -->
-      <div class="bg-accent/5 border border-accent/20 rounded-xl p-5 mb-6">
-        <p class="text-sm text-accent-light">${pitch.pitch}</p>
-      </div>
-
-      <!-- CTAs -->
       <div class="flex flex-col sm:flex-row gap-3">
         <a href="https://optemization.com" target="_blank" rel="noopener" class="inline-block bg-accent hover:bg-accent-light text-white font-semibold px-6 py-3 rounded-xl transition-colors text-center">Need help implementing this?</a>
         <button class="quiz-retake-btn border border-border hover:border-accent-light text-gray-400 hover:text-white font-semibold px-6 py-3 rounded-xl transition-colors cursor-pointer">Retake Quiz</button>
+        <button class="quiz-close-action border border-border hover:border-accent-light text-gray-400 hover:text-white font-semibold px-6 py-3 rounded-xl transition-colors cursor-pointer">Back to Directory</button>
       </div>
     </div>`;
 
   container.innerHTML = html;
+
+  container.querySelector('.copy-prompt-btn')?.addEventListener('click', (e) => {
+    navigator.clipboard.writeText(starterPrompt).then(() => {
+      e.target.textContent = 'Copied!';
+      setTimeout(() => { e.target.textContent = 'Copy'; }, 2000);
+    });
+  });
+
+  container.querySelector('.quiz-retake-btn')?.addEventListener('click', openQuiz);
+
+  container.querySelector('.quiz-close-action')?.addEventListener('click', () => {
+    closeQuiz();
+    document.getElementById('directory').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  container.querySelector('.email-submit-btn')?.addEventListener('click', () => {
+    const email = document.getElementById('email-capture')?.value;
+    if (email && email.includes('@')) {
+      console.log('Email captured:', email);
+      document.getElementById('email-confirm').classList.remove('hidden');
+    }
+  });
 }
 
 // ─── EVENT WIRING ────────────────────────────────────────────────────────────
 
 document.addEventListener('DOMContentLoaded', () => {
-  renderDirectory();
-  renderQuiz();
+  loadKB();
 
   // Directory card clicks
   document.getElementById('agent-grid').addEventListener('click', (e) => {
@@ -462,42 +634,18 @@ document.addEventListener('DOMContentLoaded', () => {
     if (card) toggleCard(card.dataset.cardKey);
   });
 
-  // Quiz event delegation
-  document.getElementById('quiz-container').addEventListener('click', (e) => {
-    // Start button
-    if (e.target.closest('.quiz-start-btn')) {
-      startQuiz();
-      return;
+  // Open quiz from hero CTA or inline section
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.quiz-start-btn') || (e.target.closest('a[href="#quiz"]') && KB)) {
+      e.preventDefault();
+      openQuiz();
     }
+  });
 
-    // Retake button
-    if (e.target.closest('.quiz-retake-btn')) {
-      startQuiz();
-      return;
-    }
-
-    // Back button
-    if (e.target.closest('.quiz-back-btn')) {
-      quizState.answers.pop();
-      quizState.currentStep = quizState.answers.length === 0 ? 'step1' : null;
-      // Recalculate from answers
-      if (quizState.answers.length === 0) {
-        quizState.currentStep = 'step1';
-      }
-      quizState.result = null;
-      renderQuiz();
-      return;
-    }
-
-    // Option selection
-    const optBtn = e.target.closest('[data-option-index]');
-    if (optBtn && quizState.currentStep) {
-      const idx = parseInt(optBtn.dataset.optionIndex);
-      const step = QUIZ_TREE[quizState.currentStep];
-      if (step && step.options[idx]) {
-        selectOption(quizState.currentStep, step.options[idx]);
-      }
-    }
+  // Close quiz overlay
+  document.getElementById('quiz-close-btn').addEventListener('click', closeQuiz);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeQuiz();
   });
 });
 </script>
