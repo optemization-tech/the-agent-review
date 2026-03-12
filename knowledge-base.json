@@ -3,250 +3,251 @@
     "manus": {
       "name": "Manus (Meta)",
       "category": "Paid Ads",
-      "summary": "Embedded inside Meta Ads Manager since Feb 2026. Handles report building, audience research, competitor analysis. Already in your ad account — no setup.",
-      "best_for": "Meta advertisers who want automated reporting and competitive intel",
-      "limitations": "Meta-only, currently prone to hallucination, opaque data layer",
-      "cost": "Included with Meta Ads Manager",
+      "summary": "Acquired by Meta for $2B in December 2025 and embedded directly into Ads Manager as of February 17, 2026. Handles report building, audience research, competitor analysis, and budget optimization — all without leaving your ad account.",
+      "best_for": "Meta advertisers who want automated reporting, audience insights, and competitive intel without a separate tool",
+      "limitations": "Meta-only — useless if you don't run Facebook/Instagram ads. Still rolling out gradually (some accounts see it as 'Business AI Beta'). Can hallucinate campaign metrics — always sanity-check numbers.",
+      "cost": "Included with Meta Ads Manager (no extra charge)",
       "technical_level": "none",
       "persistence": false,
       "setup_url": "https://adsmanager.facebook.com",
-      "starter_prompt": "Show me a performance breakdown of my top 5 ad sets this month, including cost per result and ROAS. Flag any that are underperforming compared to last month.",
+      "starter_prompt": "Show me a performance breakdown of my top 5 ad sets this month — cost per result, ROAS, and spend. Flag any that are underperforming compared to last month and tell me what you'd change.",
       "getting_started_steps": [
-        "Open Meta Ads Manager (link above)",
-        "Look for the AI assistant icon in the top navigation",
-        "Click it and paste the prompt below",
-        "Review the generated report and ask follow-up questions"
+        "Open Meta Ads Manager at adsmanager.facebook.com",
+        "Look for the 'Tools' menu in the top navigation — Manus AI appears there (or as 'Business AI Beta' under Engage Audience in Business Suite)",
+        "If you don't see it yet, check back in a few days — the rollout is gradual",
+        "Once visible, click it, paste the starter prompt below, and review the output",
+        "Ask follow-up questions in the same chat window — it has context of your account"
       ],
       "suggested_prompts": [
-        "Analyze my ad spend this month and flag underperforming campaigns",
-        "Research my top 3 competitors' ad strategies",
-        "Build a weekly performance report I can share with my team",
-        "Suggest audience segments I should test based on my best-performing ads"
+        "Analyze my ad spend this month and flag underperforming campaigns compared to last month",
+        "What audience segments should I test next based on my best-performing ad sets?",
+        "Build me a weekly performance report I can share with my team — include ROAS, CTR, and spend by campaign",
+        "What are my competitors in [your industry] doing with their Meta ads right now?"
       ]
     },
     "claude_cowork": {
       "name": "Claude Cowork",
       "category": "Desktop / File Workflows",
-      "summary": "Sandboxed desktop agent for document and file automation. You define a folder, describe an outcome, it executes multi-step tasks. Built by Anthropic.",
-      "best_for": "Knowledge workers automating document-heavy workflows without touching a terminal",
-      "limitations": "No persistent memory between sessions, no messaging app integration, requires Pro/Max plan",
-      "cost": "$20–100/mo (Claude Pro or Max)",
+      "summary": "Launched January 2026, Cowork turns Claude into a desktop agent that autonomously reads, creates, and edits files on your computer. Give it a folder and a goal — it works through tasks without constant hand-holding. Think of it as leaving instructions for a highly capable coworker who runs while you're in meetings.",
+      "best_for": "Knowledge workers who need to process, summarize, or transform large amounts of documents — contracts, reports, research, meeting notes",
+      "limitations": "Requires Claude Pro ($20/mo) or Max ($100-200/mo) — no free tier. No persistent memory between sessions. Still labeled 'research preview' as of March 2026. Available on Mac and Windows desktop only (not web or mobile).",
+      "cost": "$20/mo (Pro) or $100–$200/mo (Max — for heavy users)",
       "technical_level": "low",
       "persistence": false,
       "setup_url": "https://claude.ai/download",
-      "starter_prompt": "Go through the files in this folder and create a summary document that lists each file's purpose, key findings, and any action items mentioned. Output as a single markdown file.",
+      "starter_prompt": "Go through the files in this folder and create a summary document listing each file's purpose, key findings, and any action items mentioned. Save the output as a single markdown file called 'summary.md'.",
       "getting_started_steps": [
-        "Download Claude Desktop (link above)",
-        "Sign up for Claude Pro or Max",
-        "Open Claude Desktop and select a folder to work with",
-        "Paste the prompt below and describe your task",
-        "Review the output and iterate"
+        "Download Claude Desktop from claude.ai/download",
+        "Sign in with your Anthropic account — you'll need Claude Pro ($20/mo) or Max ($100/mo) for Cowork access",
+        "Open the app and look for the 'Cowork' tab or the Cowork option in a new chat",
+        "Select a folder on your computer to give Claude access to (it only touches what you grant)",
+        "Paste the starter prompt below — describe your task in plain English and let it run"
       ],
       "suggested_prompts": [
-        "Summarize all the documents in this folder into a one-page brief",
-        "Extract action items from these meeting notes and organize by owner",
-        "Reformat these reports into a consistent template",
-        "Compare these two contracts and highlight the differences"
+        "Summarize all the documents in this folder into a one-page brief with key themes and open questions",
+        "Extract every action item from these meeting notes and organize them by owner and due date",
+        "Compare these two contracts side by side and highlight the key differences in liability, payment terms, and exit clauses",
+        "Reformat all of these reports into a consistent template and save each as a new file"
       ]
     },
     "openclaw": {
       "name": "OpenClaw",
       "category": "Always-On Automation",
-      "summary": "Open-source 24/7 agent running on your machine or a VPS. Communicates via WhatsApp, Telegram, Slack, iMessage. Persistent memory across weeks. Model-agnostic.",
-      "best_for": "Always-on personal or business automation, cross-app life OS, technical users",
-      "limitations": "Real security risks (prompt injection, malicious community skills), requires Docker/VPS setup",
-      "cost": "Free software + API costs ($5–150/mo)",
+      "summary": "Open-source 24/7 agent that runs in the cloud or on your own machine and talks to you via WhatsApp, Telegram, Slack, or iMessage. Persistent memory that builds over weeks. Model-agnostic — use Claude, GPT, Gemini, or local models. Has 230,000+ GitHub stars. Coral (coral.inc) offers a hosted version starting at $50/mo that removes the technical setup entirely.",
+      "best_for": "Executives who want a proactive, always-on assistant that connects their entire digital life — email, calendar, Slack, CRM, and more",
+      "limitations": "Self-hosted version requires Docker/VPS setup and comfort with config files. Community skills carry real security risk (prompt injection). Token costs can balloon if not managed — easy to spend $100+ unintentionally. Coral-hosted version solves the setup problem but adds a subscription.",
+      "cost": "Free software (self-host) + VPS $5–20/mo + API costs $10–150/mo. Or Coral hosted: $50/mo (Standard) or $200/mo (Ultra)",
       "technical_level": "high",
       "persistence": true,
-      "setup_url": "https://github.com/ArcadeAI/OpenClaw",
-      "starter_prompt": "Every morning at 8am, check my calendar for today's meetings, summarize any prep materials, and send me a briefing via Slack with agenda items and key context for each meeting.",
+      "setup_url": "https://coral.inc",
+      "starter_prompt": "Every morning at 8am, check my calendar for today's meetings, look up any prep materials or context about the attendees, and send me a briefing via Slack with the agenda and key talking points for each meeting.",
       "getting_started_steps": [
-        "Visit the GitHub repo (link above)",
-        "Follow the Docker setup guide in the README",
-        "Connect your messaging platform (Slack, Telegram, etc.)",
-        "Configure your API keys for your preferred AI model",
-        "Send it the prompt below via your connected messenger"
+        "The easiest path: sign up at coral.inc for a hosted instance (7-day free trial, $50/mo after) — no technical setup required",
+        "Connect your messaging app (Telegram, WhatsApp, Slack, or Discord) through the Coral dashboard",
+        "Connect your tools — Gmail, Google Calendar, Notion, Slack — via the Integrations tab",
+        "Send it a message in your chosen messenger describing what you want it to do",
+        "To self-host instead: visit github.com/openclaw/openclaw and follow the Docker setup guide"
       ],
       "suggested_prompts": [
-        "Monitor my email for meeting invites and auto-add prep notes to my calendar",
-        "Every Friday, compile a weekly summary of my Slack channels and send it to me",
-        "When I message you a contact name, pull their latest interactions from my CRM",
-        "Track my team's standup messages and flag any blockers to me immediately"
+        "Every morning at 8am, send me a daily briefing via Slack: today's meetings, any prep needed, and emails that need a response",
+        "Monitor my inbox and flag anything that needs a reply within 24 hours — text me a summary each evening",
+        "Every Friday at 4pm, send me a weekly summary of my Slack channels and any open threads I should close out",
+        "When I message you a person's name, pull their last 3 emails and calendar interactions and give me a quick brief"
       ]
     },
     "notion_custom_agents": {
       "name": "Notion Custom Agents",
       "category": "Knowledge Management",
-      "summary": "Agent layer inside Notion that pulls workspace context and runs multi-step tasks across connected integrations.",
-      "best_for": "Teams already living in Notion who want agentic workflows without leaving the ecosystem",
-      "limitations": "Notion Business plan required, degrades at 10k+ rows, limited to Notion ecosystem",
-      "cost": "Included in Notion Business plan",
+      "summary": "Launched February 24, 2026, Notion Custom Agents are proactive AI teammates that run autonomously — triggered by schedules, Slack messages, emails, or database changes. Unlike your personal Notion AI (which waits for you to ask), custom agents act on their own. They span Notion, Slack, Gmail, Calendar, Linear, Figma, and custom MCP tools.",
+      "best_for": "Teams already living in Notion who want recurring workflows automated — status reports, task routing, Q&A bots, and meeting follow-ups",
+      "limitations": "Requires Notion Business plan ($16/user/mo). Notion Credits launch May 4, 2026 ($10 per 1,000 credits) — agents are free until then. Still requires a mature Notion setup to deliver real value. Degrades with poorly structured databases.",
+      "cost": "Included in Notion Business plan ($16/user/mo) through May 4, 2026; then usage-based Notion Credits at $10/1,000 credits",
       "technical_level": "low",
-      "persistence": false,
-      "setup_url": "https://www.notion.so/product/agents",
-      "starter_prompt": "Review my project tracker database and identify any tasks that are overdue or at risk. For each one, draft a follow-up message to the assignee asking for a status update.",
+      "persistence": true,
+      "setup_url": "https://www.notion.com/product/agents",
+      "starter_prompt": "Every Monday morning, scan my project tracker database for tasks that are overdue or have no update in 7+ days. For each one, draft a Slack message to the assignee asking for a status update, and add a 'Needs Follow-Up' tag to the task.",
       "getting_started_steps": [
-        "Make sure you're on a Notion Business plan",
-        "Go to Settings > Agents in your Notion workspace",
-        "Create a new custom agent",
-        "Give it access to your relevant databases",
-        "Paste the prompt below as the agent's first instruction"
+        "Make sure you're on Notion Business plan — visit notion.com/product/agents (link above) for details",
+        "In your Notion workspace, go to Settings → Agents and click 'New Agent'",
+        "Give your agent a name and set its trigger — a schedule (e.g., every Monday 9am), a database change, or a Slack message",
+        "Connect the tools it needs access to: your databases, Gmail, Slack, Calendar",
+        "Write its instructions in plain English — paste the starter prompt below as a starting point, then share the agent with your team"
       ],
       "suggested_prompts": [
-        "Scan my project tracker for overdue tasks and draft follow-up messages",
-        "Create a weekly status report from my team's task updates",
-        "When a new item is added to the inbox database, triage and assign it",
-        "Summarize all meeting notes from this week and extract action items"
+        "Every Monday, scan my project tracker for overdue tasks and draft Slack follow-ups to each assignee",
+        "When a new item is added to our Inbox database, triage it: assign an owner, set a priority, and post a summary in #ops-updates on Slack",
+        "After every team meeting ends on my calendar, pull the meeting notes from Notion and email a summary with action items to all attendees",
+        "Answer questions in our #hr-questions Slack channel using our Notion employee handbook — never answer outside of what's in the handbook"
       ]
     },
     "claude_code": {
       "name": "Claude Code",
       "category": "Software Development",
-      "summary": "Terminal-native coding agent by Anthropic. Deep code reasoning, best-in-class for multi-file refactors. Lives in your terminal or IDE.",
-      "best_for": "Developers doing complex code work, refactoring, or building agentic applications",
-      "limitations": "Developer-only, no persistent memory between sessions",
-      "cost": "Included with Claude Max ($100/mo) or API",
+      "summary": "Anthropic's terminal-native coding agent. Best-in-class for complex multi-file refactors, architecture analysis, and writing tests. Lives in your terminal or IDE. Not a non-technical tool — but if you have a developer on your team, this is the tool they should be using.",
+      "best_for": "Developers doing serious engineering work — multi-file refactors, security audits, test coverage, legacy code modernization",
+      "limitations": "Developer-only — requires terminal comfort. No persistent memory between sessions. Heavy usage hits rate limits on the $20 Pro plan fast; serious users need Max at $100–200/mo.",
+      "cost": "$20/mo (Pro — light use) or $100/mo (Max 5x) or $200/mo (Max 20x — all-day coding)",
       "technical_level": "developer",
       "persistence": false,
       "setup_url": "https://docs.anthropic.com/en/docs/claude-code/overview",
-      "starter_prompt": "Explore this codebase and give me a high-level architecture overview. Then identify the top 3 areas where code quality could be improved, with specific suggestions.",
+      "starter_prompt": "Explore this codebase and give me a plain-English architecture overview — what the main components are, how they connect, and where the biggest technical risks or quality issues are. Then tell me the top 3 things you'd fix first.",
       "getting_started_steps": [
-        "Install Claude Code: npm install -g @anthropic-ai/claude-code",
-        "Subscribe to Claude Max ($100/mo) or set up API billing",
-        "Open your terminal in your project directory",
-        "Run 'claude' to start a session",
-        "Paste the prompt below"
+        "Subscribe to Claude Pro ($20/mo) or Max ($100/mo) at claude.ai — Claude Code requires at least Pro",
+        "Install Claude Code in your terminal: npm install -g @anthropic-ai/claude-code",
+        "Navigate to your project folder in the terminal and run: claude",
+        "Paste the starter prompt below — Claude Code will explore your codebase and respond",
+        "Ask follow-up questions or give it tasks: 'fix the 3 issues you identified' or 'write tests for src/auth.js'"
       ],
       "suggested_prompts": [
-        "Explore this repo and explain the architecture",
-        "Refactor this module to use dependency injection",
-        "Write tests for all untested functions in src/",
-        "Find and fix all security vulnerabilities in this codebase"
+        "Walk me through this codebase in plain English — what it does, how it's structured, and where the biggest risks are",
+        "Write comprehensive tests for all functions in the src/ directory that currently have no test coverage",
+        "Find and explain every security vulnerability in this codebase, starting with the highest severity",
+        "Refactor this entire module to be cleaner and more maintainable — explain every change you make"
       ]
     },
     "codex": {
       "name": "Codex (OpenAI)",
       "category": "Software Development",
-      "summary": "Cloud-first coding agent by OpenAI. Strong on long-horizon planning and parallel subtasks.",
-      "best_for": "Developers in the OpenAI ecosystem, complex multi-file architectures",
-      "limitations": "Cloud-only, local CLI lags Claude Code on latency",
-      "cost": "ChatGPT Pro or API",
+      "summary": "OpenAI's cloud-first coding agent. Included in all paid ChatGPT plans (Plus, Pro, Business). Strong on long-horizon planning and parallel multi-file tasks. Unlike Claude Code, it runs entirely in the cloud — connect your GitHub repo and it creates PRs directly.",
+      "best_for": "Developers in the OpenAI ecosystem who want to delegate large coding tasks and review a finished PR rather than babysit every step",
+      "limitations": "Cloud-only — all code runs on OpenAI's servers. Local CLI has more latency than Claude Code. Usage is capped by plan and resets periodically — heavy users may need extra credits. Developer-only tool.",
+      "cost": "Included with ChatGPT Plus ($20/mo), Pro ($200/mo), Business ($30/user/mo), or API (pay per token)",
       "technical_level": "developer",
       "persistence": false,
       "setup_url": "https://chatgpt.com/codex",
-      "starter_prompt": "Analyze this repository structure and create a detailed plan to add a REST API layer. Include routing, middleware, error handling, and tests.",
+      "starter_prompt": "Analyze this repository and create a detailed plan to add a REST API layer — include routing, authentication middleware, error handling, and a test suite. Show me the plan before writing any code.",
       "getting_started_steps": [
-        "Subscribe to ChatGPT Pro",
-        "Go to chatgpt.com/codex (link above)",
-        "Connect your GitHub repository",
-        "Paste the prompt below to start a task",
-        "Review the generated PR when complete"
+        "Subscribe to ChatGPT Plus, Pro, or Business at chat.openai.com — Codex is included in all paid plans",
+        "Go to chatgpt.com/codex (link above) and connect your GitHub repository",
+        "Describe your task in plain English — Codex will plan and then execute it",
+        "When it's done, it will open a pull request on GitHub for you to review",
+        "Review and merge the PR — or ask for changes by commenting in the Codex chat"
       ],
       "suggested_prompts": [
-        "Add comprehensive test coverage to this project",
-        "Refactor the database layer to use connection pooling",
-        "Create a CI/CD pipeline for this project",
-        "Migrate this codebase from JavaScript to TypeScript"
+        "Add comprehensive test coverage to this project — target 80%+ for all core modules",
+        "Migrate this codebase from JavaScript to TypeScript with full type annotations",
+        "Set up a complete CI/CD pipeline for this project using GitHub Actions",
+        "Audit this codebase for security vulnerabilities and open a PR with fixes for any critical or high issues"
       ]
     },
     "perplexity_computer": {
       "name": "Perplexity Computer",
       "category": "Research / Cross-Platform",
-      "summary": "General-purpose digital worker that routes tasks across 19 AI models. Designed for long-running research and cross-app work.",
-      "best_for": "Deep research, competitive intelligence, cross-platform tasks where you want the best model per subtask",
-      "limitations": "Plans start at $200+/mo with additional AI credits",
-      "cost": "$200+/mo",
+      "summary": "Launched February 26, 2026, Perplexity Computer is a multi-model agent that coordinates 19 AI models (Claude, Gemini, Grok, and others) to complete complex, long-running workflows in the background. Give it a high-level objective — market research, competitive analysis, report writing — and it delegates each subtask to the best model for the job.",
+      "best_for": "Executives and ops leaders who need deep, multi-source research done automatically — competitive intelligence, market landscapes, due diligence",
+      "limitations": "Requires Perplexity Max at $200/mo. Long-running tasks can take 10–30+ minutes. Best for research and analysis, not for taking action inside other apps. Still new — reliability improving week over week.",
+      "cost": "$200/mo (Perplexity Max plan — Computer is included)",
       "technical_level": "low",
       "persistence": true,
-      "setup_url": "https://www.perplexity.ai/hub/computer",
-      "starter_prompt": "Research the top 10 competitors in [your industry]. For each, compile: pricing model, key features, recent product launches, and estimated market share. Output as a comparison table.",
+      "setup_url": "https://www.perplexity.ai/hub/blog/introducing-perplexity-max",
+      "starter_prompt": "Research the top 8 competitors in [your industry]. For each one, compile: pricing model, core product features, recent product launches or announcements, estimated market position, and any publicly known weaknesses. Output as a structured comparison table.",
       "getting_started_steps": [
-        "Sign up at perplexity.ai (link above)",
-        "Subscribe to a plan with Computer access ($200+/mo)",
-        "Open a new Computer session",
-        "Paste the prompt below (replace [your industry] with yours)",
-        "Let it run — this can take 10-30 minutes for deep research"
+        "Sign up for Perplexity Max at perplexity.ai — $200/mo, Computer access is included",
+        "Go to perplexity.ai and look for the Computer option in the sidebar or main menu",
+        "Start a new Computer session and type your research objective in plain English",
+        "Replace [your industry] in the starter prompt below with your actual industry, then paste it in",
+        "Let it run — deep research tasks take 10–30 minutes; you'll get a notification when it's done"
       ],
       "suggested_prompts": [
-        "Research our top 10 competitors and build a comparison matrix",
-        "Find all recent funding announcements in [industry] from the last 30 days",
-        "Compile a market landscape report with pricing, features, and positioning",
-        "Monitor these 5 company blogs and summarize any product updates weekly"
+        "Research our top 8 competitors in [industry] and build a full comparison matrix: pricing, features, positioning, and weaknesses",
+        "Compile every funding announcement and major product launch in [industry] from the last 60 days into a market intelligence report",
+        "Write a due diligence summary on [company name] — business model, team, traction, risks, and competitive position",
+        "Monitor these 5 company websites and send me a summary of any pricing or product changes once a week"
       ]
     },
     "cofounder": {
       "name": "Cofounder",
       "category": "Always-On Automation",
-      "summary": "Natural language automation platform that connects 80+ tools. Describe what you want in plain English and it builds the workflow. Persistent memory that learns your business over time.",
-      "best_for": "Founders and ops leaders who want to automate cross-tool workflows without writing code",
-      "limitations": "Credit-based usage can add up for heavy use, newer platform with smaller community than alternatives",
-      "cost": "Free trial (3K credits), Pro $40/mo",
+      "summary": "No-code automation platform where you describe workflows in plain English and it builds them for you. Connects 80+ tools (Gmail, Slack, Calendar, CRM, GitHub, and more). Persistent memory that learns your business context over time. Priced at $39.99/mo with 4,000 credits included — you pay per automated action, not per seat.",
+      "best_for": "Founders and ops leaders who want to automate multi-tool workflows without writing code and without hiring a developer",
+      "limitations": "Credit-based — heavy automation can burn through your monthly allotment fast ($4 per 100 credits after the included 4,000). Smaller community and skill library than n8n. Better for single-user or small-team use than enterprise.",
+      "cost": "Free trial (3,000 credits included), then $39.99/mo (4,000 credits/mo, $4 per 100 additional credits)",
       "technical_level": "low",
       "persistence": true,
       "setup_url": "https://app.cofounder.co",
-      "starter_prompt": "Connect to my Gmail, Slack, and calendar. Every morning at 8am, send me a briefing in Slack with today's meetings, any emails that need a response, and my top 3 priorities from yesterday's unfinished tasks.",
+      "starter_prompt": "Connect to my Gmail, Slack, and Google Calendar. Every morning at 8am, send me a message in Slack with: today's meetings and any prep context, emails that arrived overnight that need a response, and my top 3 unfinished tasks from yesterday.",
       "getting_started_steps": [
-        "Sign up at app.cofounder.co (link above)",
-        "Connect your key tools (Gmail, Slack, calendar, etc.)",
-        "Describe your first automation in plain English",
-        "Review and approve the workflow it creates",
-        "Let it run — it learns and improves over time"
+        "Sign up for free at app.cofounder.co — 3,000 credits included, no credit card required",
+        "Connect your key tools: Gmail, Slack, Google Calendar — click 'Integrations' and authorize each one",
+        "In the chat, describe your first automation in plain English — Cofounder will build the workflow for you",
+        "Review what it built, test it with one run, and approve it to go live",
+        "Watch the 'Automations' tab to see it running — and keep adding new workflows by describing them in chat"
       ],
       "suggested_prompts": [
-        "Every morning, send me a Slack briefing with today's meetings and unread emails that need responses",
-        "When a new lead fills out our form, research their company and add a summary to our CRM",
-        "Monitor our GitHub repos and post a weekly engineering status update in Slack",
-        "Track competitor pricing pages and alert me when anything changes"
+        "Every morning at 8am, post a Slack briefing with today's meetings, overnight emails that need responses, and my top 3 carry-over tasks",
+        "When a new lead fills out our Typeform, research their company, score the lead, and add a summary to our HubSpot CRM",
+        "Every Friday at 4pm, pull updates from our project management tool and post a weekly status summary in #team-updates on Slack",
+        "Monitor our competitor's pricing page and alert me in Slack if anything changes"
       ]
     },
     "poke": {
       "name": "Poke",
       "category": "Always-On Automation",
-      "summary": "AI assistant that lives in your iMessage or SMS. Connects to your email and calendar, then proactively nudges you about tasks, meetings, and follow-ups. Executes actions through simple text replies.",
-      "best_for": "Busy executives who want an always-on assistant in their messaging app without installing anything new",
-      "limitations": "Currently banned on WhatsApp (Meta antitrust), limited to iMessage/SMS, no team features yet",
-      "cost": "$5–50/mo (negotiable with the bot)",
+      "summary": "A proactive AI assistant that lives in your existing messages — iMessage, SMS, and WhatsApp. Connects to your email and calendar, then texts you what you need before you ask: meeting briefs, email flags, follow-up reminders. No app to download. Built by the team behind Interaction Co, backed by General Catalyst at a $100M valuation.",
+      "best_for": "Busy executives who want a zero-friction AI assistant that works through text messages — no new app, no learning curve, just texts",
+      "limitations": "Still early-stage — some features (like drafting replies to emails) are still in development. Privacy trade-off: requires access to your inbox and calendar. Pricing not publicly listed — negotiated or waitlist-based for now. iOS-centric (iMessage works best on iPhone).",
+      "cost": "$5–50/mo (pricing confirmed on request via poke.com — not publicly listed)",
       "technical_level": "none",
       "persistence": true,
       "setup_url": "https://poke.com",
-      "starter_prompt": "Connect to my email and calendar. Every morning, text me a summary of today's meetings with prep notes. Flag any emails I haven't responded to in 24+ hours.",
+      "starter_prompt": "Connect to my Google Calendar and Gmail. Every morning at 7:30am, text me a brief: today's meetings with prep context for each one, and any emails I haven't responded to in over 24 hours.",
       "getting_started_steps": [
-        "Visit poke.com (link above) and get started",
-        "Grant access to your email and calendar",
-        "Poke will text you — just reply like you're texting a friend",
-        "Tell it what you want help with (or paste the prompt below)",
-        "It learns your patterns and starts nudging you proactively"
+        "Visit poke.com (link above) and sign up — Poke will text you from a number you'll recognize",
+        "Follow the setup prompts to grant access to your Gmail and Google Calendar",
+        "You'll receive a text — just reply like you're messaging a friend to set preferences",
+        "Paste the starter prompt below in your first message to configure your morning brief",
+        "From now on, Poke texts you proactively — no app to open, no prompts to write"
       ],
       "suggested_prompts": [
-        "Every morning, text me my schedule with prep notes for each meeting",
-        "Flag any emails I haven't replied to in over 24 hours",
-        "When I get a meeting invite, research the attendees and text me a quick brief",
-        "Remind me to follow up with anyone I met this week by Friday"
+        "Every morning at 7:30am, text me my schedule for the day with 2-3 sentences of prep context for each meeting",
+        "Flag any emails I haven't replied to in over 24 hours and text me a summary each evening at 6pm",
+        "When I have a meeting with someone new, research them on LinkedIn and text me a brief 30 minutes before",
+        "Every Friday, text me a list of anyone I met with this week that I should follow up with"
       ]
     },
     "n8n_custom": {
       "name": "Custom Agent (n8n + Claude API)",
       "category": "Custom / Enterprise",
-      "summary": "Build your own agent orchestration layer using n8n workflows + Claude API. Full control over logic, memory, integrations, and triggers.",
-      "best_for": "Businesses with specific workflows that no off-the-shelf tool handles well",
-      "limitations": "Requires design and build time — this is a project, not a product",
-      "cost": "n8n license + API costs (varies)",
+      "summary": "Build your own agent orchestration layer using n8n workflows wired to the Claude API. Full control over logic, memory, integrations, triggers, and data handling. The only option on this list that can be designed to exactly match a specific business process — with no compromise. This is a project, not a product.",
+      "best_for": "Companies with specific, high-value workflows that no off-the-shelf tool handles well — custom routing logic, proprietary data, compliance requirements, or complex multi-system orchestration",
+      "limitations": "This is not a plug-and-play tool — it requires discovery, design, and build time (weeks, not hours). n8n Cloud runs €20–€50/mo for most workflows; Claude API costs vary by usage. Requires an implementation partner unless you have an in-house technical team.",
+      "cost": "n8n Cloud €20–€50/mo + Claude API costs ($50–500+/mo depending on volume) + implementation time",
       "technical_level": "requires implementation partner",
       "persistence": true,
       "setup_url": "https://optemization.com",
-      "starter_prompt": "This agent is custom-built for your specific workflow. Contact Optemization to design the right system for your needs.",
+      "starter_prompt": "This agent is custom-built for your specific workflow. The first step is a discovery call with Optemization to design the right system for your needs.",
       "getting_started_steps": [
-        "Visit optemization.com (link above)",
-        "Book a discovery call to discuss your workflow needs",
-        "We'll design the agent architecture together",
-        "We build and deploy the system on n8n + Claude API",
-        "You get a custom agent that compounds over time"
+        "Visit optemization.com (link above) and book a discovery call",
+        "Describe your top 3 workflows that would have the most business impact if automated",
+        "Optemization will design the agent architecture — what it connects to, how it makes decisions, where it stores memory",
+        "Build and deploy: typically 2–6 weeks depending on complexity",
+        "Ongoing: the agent improves over time as it processes more of your business data"
       ],
       "suggested_prompts": [
-        "When a new lead comes in via Typeform, enrich it with Clearbit data, score it, and route to the right sales rep in Slack",
-        "Every Monday, pull data from 3 tools, generate a board report, and draft an email to investors",
-        "Monitor customer support tickets for escalation patterns and alert the team lead",
-        "Automatically process inbound contracts: extract key terms, flag risks, and route for approval"
+        "When a new lead comes in via our form, enrich it with company data, score it against our ICP, and route it to the right sales rep in Slack with a full brief",
+        "Every Monday morning, pull data from our CRM, support tool, and analytics into a single board report draft and email it to leadership",
+        "Monitor incoming support tickets for escalation patterns — alert the team lead in Slack when a customer has contacted us 3+ times in 7 days",
+        "Automatically review inbound contracts: extract payment terms, liability clauses, and IP ownership, then flag any non-standard terms for legal review"
       ]
     }
   },
@@ -270,35 +271,41 @@
       {
         "label": "Sending outbound and following up",
         "icon": "📧",
-        "agent_scores": { "n8n_custom": 3, "openclaw": 2, "cofounder": 2 }
+        "agent_scores": { "n8n_custom": 3, "cofounder": 2, "openclaw": 1, "poke": 1 }
       },
       {
         "label": "Prepping for meetings and following up after",
         "icon": "🤝",
-        "agent_scores": { "notion_custom_agents": 2, "claude_cowork": 2, "openclaw": 2, "poke": 2, "cofounder": 1, "n8n_custom": 1 }
+        "agent_scores": { "poke": 3, "notion_custom_agents": 2, "claude_cowork": 2, "openclaw": 2, "cofounder": 1, "n8n_custom": 1 }
       },
       {
         "label": "Actually reaching inbox zero",
         "icon": "📬",
-        "agent_scores": { "openclaw": 3, "poke": 3, "n8n_custom": 2, "cofounder": 1 }
+        "agent_scores": { "poke": 3, "openclaw": 2, "n8n_custom": 2, "cofounder": 1 }
       },
       {
         "label": "Building reports from scattered data",
         "icon": "📊",
-        "agent_scores": { "n8n_custom": 3, "perplexity_computer": 2, "cofounder": 2, "notion_custom_agents": 1 }
+        "agent_scores": { "n8n_custom": 3, "perplexity_computer": 3, "cofounder": 2, "notion_custom_agents": 1 }
       },
       {
         "label": "Drowning in Slack messages",
         "icon": "💬",
-        "agent_scores": { "openclaw": 3, "n8n_custom": 2, "cofounder": 1, "notion_custom_agents": 1 }
+        "agent_scores": { "openclaw": 3, "notion_custom_agents": 2, "n8n_custom": 2, "cofounder": 1 }
+      },
+      {
+        "label": "Competitive research and market intelligence",
+        "icon": "🔭",
+        "agent_scores": { "perplexity_computer": 3, "manus": 2, "claude_cowork": 1, "cofounder": 1 }
       }
     ],
     "tools": [
       { "label": "Notion", "icon": "📓", "agent_scores": { "notion_custom_agents": 3, "cofounder": 1, "n8n_custom": 1 } },
-      { "label": "Google Workspace", "icon": "📧", "agent_scores": { "claude_cowork": 2, "poke": 2, "cofounder": 2, "openclaw": 1 } },
-      { "label": "Slack", "icon": "💬", "agent_scores": { "openclaw": 2, "n8n_custom": 2, "cofounder": 2, "notion_custom_agents": 1 } },
+      { "label": "Google Workspace", "icon": "📧", "agent_scores": { "poke": 3, "claude_cowork": 2, "cofounder": 2, "openclaw": 2, "n8n_custom": 1 } },
+      { "label": "Slack", "icon": "💬", "agent_scores": { "notion_custom_agents": 3, "openclaw": 2, "n8n_custom": 2, "cofounder": 2 } },
       { "label": "Meta Ads Manager", "icon": "📢", "agent_scores": { "manus": 3 } },
-      { "label": "Salesforce / HubSpot", "icon": "📊", "agent_scores": { "n8n_custom": 3, "perplexity_computer": 1 } },
+      { "label": "Salesforce / HubSpot", "icon": "📊", "agent_scores": { "n8n_custom": 3, "cofounder": 2, "perplexity_computer": 1 } },
+      { "label": "GitHub", "icon": "🐙", "agent_scores": { "codex": 3, "claude_code": 2, "n8n_custom": 1 } },
       { "label": "Others / none of these", "icon": "🤷", "agent_scores": {} }
     ],
     "api_config": {
@@ -310,44 +317,44 @@
   },
   "pitches": {
     "manus": {
-      "complexity": "Manus is already in your Meta Ads Manager — zero setup.",
-      "pitch": "We help teams integrate AI agents into their existing marketing stack so nothing falls through the cracks."
+      "complexity": "Manus is already in your Meta Ads Manager — zero setup required.",
+      "pitch": "We help marketing teams build reporting workflows and audience research automations on top of Manus so nothing falls through the cracks."
     },
     "claude_cowork": {
-      "complexity": "Sign up for Claude Pro or Max and you're running in minutes.",
-      "pitch": "We can define the workflows, build the skills, and set up the guardrails so this runs reliably."
+      "complexity": "Download Claude Desktop, subscribe to Pro or Max, and you're running in under 10 minutes.",
+      "pitch": "We can define the workflows, build the templates, and configure the right folder structure so Cowork delivers consistent output from day one."
     },
     "openclaw": {
-      "complexity": "Requires Docker or a VPS, API keys, and comfort with config files. Plan for an afternoon of setup.",
-      "pitch": "We can define the workflows, build the skills, and set up the guardrails so this runs reliably."
+      "complexity": "Easiest path: sign up at coral.inc (7-day free trial, $50/mo). Self-hosting requires a VPS, Docker, and a free afternoon.",
+      "pitch": "We configure OpenClaw deployments end-to-end — integrations, automations, memory architecture, and the skills that make it actually useful."
     },
     "notion_custom_agents": {
-      "complexity": "Available now on Notion Business. Turn it on in settings and start building agents.",
-      "pitch": "We've designed agent-ready Notion workspaces for 80+ clients. We know where the edges are."
+      "complexity": "Available now on Notion Business. Enable in Settings → Agents and start building — no technical work needed.",
+      "pitch": "We've designed agent-ready Notion workspaces for dozens of clients. We know exactly where the edges are and how to build agents that hold up at scale."
     },
     "claude_code": {
-      "complexity": "Install the CLI, connect your API key, and start coding. Developer setup takes 10 minutes.",
-      "pitch": "We use Claude Code daily to build agentic systems for clients. We can help you get the most out of it."
+      "complexity": "Install the CLI (one command), subscribe to Claude Pro or Max, and start coding. Developer setup takes 10 minutes.",
+      "pitch": "We use Claude Code daily to build agentic systems for clients. We can help your engineering team get the most out of it."
     },
     "codex": {
-      "complexity": "Available through ChatGPT Pro or the OpenAI API. Cloud-first — no local install needed.",
-      "pitch": "We're model-agnostic. If your team is in the OpenAI ecosystem, we'll build on top of it."
+      "complexity": "Included in all paid ChatGPT plans — connect your GitHub repo at chatgpt.com/codex and assign your first task.",
+      "pitch": "We're model-agnostic. If your team is already in the OpenAI ecosystem, we'll build the workflows that make Codex actually reliable."
     },
     "perplexity_computer": {
-      "complexity": "Sign up for Perplexity's Computer plan. Cloud-based — no local install needed.",
-      "pitch": "We help teams pick the right combination of tools and integrate them into a single workflow."
+      "complexity": "Sign up for Perplexity Max ($200/mo) — Computer access is included. Cloud-based, no install needed.",
+      "pitch": "We help teams structure their research workflows so they get consistent, actionable intelligence — not just long documents."
     },
     "cofounder": {
-      "complexity": "Sign up, connect your tools, and describe your first workflow. Running in under 10 minutes.",
-      "pitch": "We can help you design the right automations and make sure your Cofounder setup scales as your team grows."
+      "complexity": "Sign up free at app.cofounder.co, connect your tools, and describe your first automation. Running in under 15 minutes.",
+      "pitch": "We can design the right automation architecture and make sure your Cofounder setup scales cleanly as your team and tools grow."
     },
     "poke": {
-      "complexity": "Text the number or sign up online. Grant email/calendar access. That's it — no app to install.",
-      "pitch": "We help teams figure out which AI tools fit where, and make sure they actually get adopted."
+      "complexity": "Sign up at poke.com, grant calendar and email access — Poke texts you from there. No app to install.",
+      "pitch": "We help executives figure out which AI tools actually get adopted and make sure Poke is configured to match how you actually work."
     },
     "n8n_custom": {
-      "complexity": "This requires custom architecture — it's a project, not a product. Plan for weeks, not hours.",
-      "pitch": "This is exactly what we build. We design the architecture so your agent actually compounds over time."
+      "complexity": "This is a project, not a product — expect a 2–6 week build. Plan accordingly.",
+      "pitch": "This is exactly what we build. We design the architecture so your custom agent compounds in value over time, not just automates one thing."
     }
   },
   "category_colors": {
