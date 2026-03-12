@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Which AI Agent? — The living guide to AI agents for business</title>
+  <meta name="description" content="Find the right AI agent for your business. Interactive quiz + curated directory of 8 top AI agents. Updated weekly.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Which AI Agent?">
+  <meta property="og:description" content="The living guide to AI agents for business. Take the quiz or browse all 8 agents.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://whichaiagent.com">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Which AI Agent?">
+  <meta name="twitter:description" content="The living guide to AI agents for business. Take the quiz or browse all 8 agents.">
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            surface: '#0a0a0f',
+            card: '#13131a',
+            'card-hover': '#1a1a24',
+            border: '#2a2a3a',
+            accent: '#6366f1',
+            'accent-light': '#818cf8',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer utilities {
+      .quiz-option {
+        @apply bg-card border border-border rounded-xl p-5 cursor-pointer transition-colors hover:border-accent-light hover:bg-card-hover text-left w-full;
+      }
+    }
+  </style>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
+  </style>
+</head>
+<body class="bg-surface text-gray-100 min-h-screen">
+
+  <!-- Hero -->
+  <section id="hero" class="min-h-[80vh] flex items-center justify-center px-6">
+    <div class="text-center max-w-3xl mx-auto">
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6">Which AI Agent?</h1>
+      <p class="text-xl md:text-2xl text-gray-400 mb-3">The living guide to AI agents for business. Updated weekly.</p>
+      <p class="text-sm text-gray-500 mb-10">Last updated: March 12, 2026</p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a href="#quiz" class="inline-block bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">Take the Quiz</a>
+        <a href="#directory" class="inline-block border border-border hover:border-accent-light text-gray-300 hover:text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg">Browse All Agents</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Directory -->
+  <section id="directory" class="max-w-6xl mx-auto px-6 py-20">
+    <h2 class="text-3xl md:text-4xl font-bold mb-3">Agent Directory</h2>
+    <p class="text-gray-400 mb-10">8 agents worth knowing about right now. Click any card to see the full breakdown.</p>
+    <div id="agent-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </section>
+
+  <!-- Quiz -->
+  <section id="quiz" class="max-w-3xl mx-auto px-6 py-20">
+    <h2 class="text-3xl md:text-4xl font-bold mb-3">Find Your Agent</h2>
+    <p class="text-gray-400 mb-10">Answer 1-2 questions. Get a recommendation in under 30 seconds.</p>
+    <div id="quiz-container" class="min-h-[300px]"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-border mt-20 py-12 px-6">
+    <div class="max-w-6xl mx-auto text-center">
+      <p class="text-gray-400">Built by <a href="https://optemization.com" target="_blank" rel="noopener" class="text-accent-light hover:text-white transition-colors">Optemization</a> — we design and build AI agent systems for businesses.</p>
+    </div>
+  </footer>
+
+<script>
+// ─── DATA ────────────────────────────────────────────────────────────────────
+
+const AGENTS = {
+  manus: {
+    name: "Manus (Meta)",
+    category: "Paid Ads",
+    summary: "Embedded inside Meta Ads Manager since Feb 2026. Handles report building, audience research, competitor analysis. Already in your ad account — no setup.",
+    best_for: "Meta advertisers who want automated reporting and competitive intel",
+    limitations: "Meta-only, currently prone to hallucination, opaque data layer",
+    cost: "Included with Meta Ads Manager",
+    technical_level: "none",
+    persistence: false
+  },
+  claude_cowork: {
+    name: "Claude Cowork",
+    category: "Desktop / File Workflows",
+    summary: "Sandboxed desktop agent for document and file automation. You define a folder, describe an outcome, it executes multi-step tasks. Built by Anthropic.",
+    best_for: "Knowledge workers automating document-heavy workflows without touching a terminal",
+    limitations: "No persistent memory between sessions, no messaging app integration, requires Pro/Max plan",
+    cost: "$20\u2013100/mo (Claude Pro or Max)",
+    technical_level: "low",
+    persistence: false
+  },
+  openclaw: {
+    name: "OpenClaw",
+    category: "Always-On Automation",
+    summary: "Open-source 24/7 agent running on your machine or a VPS. Communicates via WhatsApp, Telegram, Slack, iMessage. Persistent memory across weeks. Model-agnostic.",
+    best_for: "Always-on personal or business automation, cross-app life OS, technical users",
+    limitations: "Real security risks (prompt injection, malicious community skills), requires Docker/VPS setup",
+    cost: "Free software + API costs ($5\u2013150/mo)",
+    technical_level: "high",
+    persistence: true
+  },
+  notion_custom_agents: {
+    name: "Notion Custom Agents",
+    category: "Knowledge Management",
+    summary: "Agent layer inside Notion that pulls workspace context and runs multi-step tasks across connected integrations.",
+    best_for: "Teams already living in Notion who want agentic workflows without leaving the ecosystem",
+    limitations: "Notion Business plan required, degrades at 10k+ rows, limited to Notion ecosystem",
+    cost: "Included in Notion Business plan",
+    technical_level: "low",
+    persistence: false
+  },
+  claude_code: {
+    name: "Claude Code",
+    category: "Software Development",
+    summary: "Terminal-native coding agent by Anthropic. Deep code reasoning, best-in-class for multi-file refactors. Lives in your terminal or IDE.",
+    best_for: "Developers doing complex code work, refactoring, or building agentic applications",
+    limitations: "Developer-only, no persistent memory between sessions",
+    cost: "Included with Claude Max ($100/mo) or API",
+    technical_level: "developer",
+    persistence: false
+  },
+  codex: {
+    name: "Codex (OpenAI)",
+    category: "Software Development",
+    summary: "Cloud-first coding agent by OpenAI. Strong on long-horizon planning and parallel subtasks.",
+    best_for: "Developers in the OpenAI ecosystem, complex multi-file architectures",
+    limitations: "Cloud-only, local CLI lags Claude Code on latency",
+    cost: "ChatGPT Pro or API",
+    technical_level: "developer",
+    persistence: false
+  },
+  perplexity_computer: {
+    name: "Perplexity Computer",
+    category: "Research / Cross-Platform",
+    summary: "General-purpose digital worker that routes tasks across 19 AI models. Designed for long-running research and cross-app work.",
+    best_for: "Deep research, competitive intelligence, cross-platform tasks where you want the best model per subtask",
+    limitations: "Plans start at $200+/mo with additional AI credits",
+    cost: "$200+/mo",
+    technical_level: "low",
+    persistence: true
+  },
+  n8n_custom: {
+    name: "Custom Agent (n8n + Claude API)",
+    category: "Custom / Enterprise",
+    summary: "Build your own agent orchestration layer using n8n workflows + Claude API. Full control over logic, memory, integrations, and triggers.",
+    best_for: "Businesses with specific workflows that no off-the-shelf tool handles well",
+    limitations: "Requires design and build time \u2014 this is a project, not a product",
+    cost: "n8n license + API costs (varies)",
+    technical_level: "requires implementation partner",
+    persistence: true
+  }
+};
+
+const CATEGORY_COLORS = {
+  "Paid Ads": { bg: "bg-rose-500/10", text: "text-rose-400", border: "border-rose-500/20" },
+  "Desktop / File Workflows": { bg: "bg-blue-500/10", text: "text-blue-400", border: "border-blue-500/20" },
+  "Always-On Automation": { bg: "bg-amber-500/10", text: "text-amber-400", border: "border-amber-500/20" },
+  "Knowledge Management": { bg: "bg-emerald-500/10", text: "text-emerald-400", border: "border-emerald-500/20" },
+  "Software Development": { bg: "bg-violet-500/10", text: "text-violet-400", border: "border-violet-500/20" },
+  "Research / Cross-Platform": { bg: "bg-cyan-500/10", text: "text-cyan-400", border: "border-cyan-500/20" },
+  "Custom / Enterprise": { bg: "bg-orange-500/10", text: "text-orange-400", border: "border-orange-500/20" }
+};
+
+const TECH_LABELS = {
+  none: { label: "No setup required", bg: "bg-emerald-500/10", text: "text-emerald-400" },
+  low: { label: "Low technical", bg: "bg-blue-500/10", text: "text-blue-400" },
+  high: { label: "Technical setup", bg: "bg-amber-500/10", text: "text-amber-400" },
+  developer: { label: "Developer tool", bg: "bg-violet-500/10", text: "text-violet-400" },
+  "requires implementation partner": { label: "Needs implementation partner", bg: "bg-orange-500/10", text: "text-orange-400" }
+};
+
+const QUIZ_TREE = {
+  step1: {
+    question: "What kind of work do you need an AI agent for?",
+    step: 1,
+    totalSteps: "1\u20132",
+    options: [
+      { icon: "\ud83d\udcb0", label: "Running & analyzing paid ads", next: null, result: ["manus", "perplexity_computer"] },
+      { icon: "\ud83d\udcc1", label: "Files, documents & desktop workflows", next: null, result: ["claude_cowork"] },
+      { icon: "\ud83d\udcbb", label: "Code & software development", next: "step2a" },
+      { icon: "\u26a1", label: "Always-on personal/business automation", next: "step2b" },
+      { icon: "\ud83e\udde0", label: "Knowledge management & project execution", next: "step2c" },
+      { icon: "\ud83d\udd27", label: "Build a custom multi-agent system", next: null, result: ["n8n_custom"] }
+    ]
+  },
+  step2a: {
+    question: "Which AI ecosystem do you prefer?",
+    step: 2,
+    totalSteps: 2,
+    options: [
+      { icon: "\ud83d\udd36", label: "Anthropic (Claude)", next: null, result: ["claude_code"] },
+      { icon: "\ud83d\udfe2", label: "OpenAI", next: null, result: ["codex"] }
+    ]
+  },
+  step2b: {
+    question: "How technical are you (or your team)?",
+    step: 2,
+    totalSteps: 2,
+    options: [
+      { icon: "\ud83d\ude80", label: "I can handle Docker, APIs, and config files", next: null, result: ["openclaw"] },
+      { icon: "\u2728", label: "I want something that just works", next: null, result: ["claude_cowork"] }
+    ]
+  },
+  step2c: {
+    question: "Are you already using Notion?",
+    step: 2,
+    totalSteps: 2,
+    options: [
+      { icon: "\u2705", label: "Yes, my team lives in Notion", next: null, result: ["notion_custom_agents"] },
+      { icon: "\ud83d\udeab", label: "No, or just getting started", next: null, result: ["claude_cowork", "perplexity_computer"] }
+    ]
+  }
+};
+
+const RESULT_PITCHES = {
+  "manus,perplexity_computer": {
+    complexity: "Manus is already in your Meta Ads Manager \u2014 zero setup. Perplexity requires a paid plan.",
+    pitch: "We help teams integrate AI agents into their existing marketing stack so nothing falls through the cracks."
+  },
+  "claude_cowork": {
+    complexity: "Sign up for Claude Pro or Max and you're running in minutes.",
+    pitch: "We can define the workflows, build the skills, and set up the guardrails so this runs reliably."
+  },
+  "claude_code": {
+    complexity: "Install the CLI, connect your API key, and start coding. Developer setup takes 10 minutes.",
+    pitch: "We use Claude Code daily to build agentic systems for clients. We can help you get the most out of it."
+  },
+  "codex": {
+    complexity: "Available through ChatGPT Pro or the OpenAI API. Cloud-first \u2014 no local install needed.",
+    pitch: "We\u2019re model-agnostic. If your team is in the OpenAI ecosystem, we\u2019ll build on top of it."
+  },
+  "openclaw": {
+    complexity: "Requires Docker or a VPS, API keys, and comfort with config files. Plan for an afternoon of setup.",
+    pitch: "We can define the workflows, build the skills, and set up the guardrails so this runs reliably."
+  },
+  "notion_custom_agents": {
+    complexity: "Available now on Notion Business. Turn it on in settings and start building agents.",
+    pitch: "We\u2019ve designed agent-ready Notion workspaces for 80+ clients. We know where the edges are."
+  },
+  "claude_cowork,perplexity_computer": {
+    complexity: "Claude Cowork runs on your desktop. Perplexity handles deeper research tasks in the cloud.",
+    pitch: "We help teams pick the right combination of tools and integrate them into a single workflow."
+  },
+  "n8n_custom": {
+    complexity: "This requires custom architecture \u2014 it\u2019s a project, not a product. Plan for weeks, not hours.",
+    pitch: "This is exactly what we build. We design the architecture so your agent actually compounds over time."
+  }
+};
+
+// ─── STATE + RENDERING ───────────────────────────────────────────────────────
+
+let openCard = null;
+
+function renderDirectory() {
+  const grid = document.getElementById('agent-grid');
+  let html = '';
+
+  for (const [key, agent] of Object.entries(AGENTS)) {
+    const cat = CATEGORY_COLORS[agent.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
+    const tech = TECH_LABELS[agent.technical_level] || { label: agent.technical_level, bg: 'bg-gray-500/10', text: 'text-gray-400' };
+
+    html += `
+      <div class="bg-card border border-border rounded-xl p-6 cursor-pointer transition-all hover:border-accent-light hover:bg-card-hover group" data-card-key="${key}">
+        <div class="flex items-start justify-between mb-3">
+          <h3 class="text-lg font-semibold text-white group-hover:text-accent-light transition-colors">${agent.name}</h3>
+          <svg class="w-5 h-5 text-gray-500 transition-transform" id="chevron-${key}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+        <div class="flex flex-wrap gap-2 mb-3">
+          <span class="text-xs px-2.5 py-1 rounded-full ${cat.bg} ${cat.text} border ${cat.border}">${agent.category}</span>
+          <span class="text-xs px-2.5 py-1 rounded-full ${tech.bg} ${tech.text}">${tech.label}</span>
+          ${agent.persistence ? '<span class="text-xs px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-400">Persistent memory</span>' : ''}
+        </div>
+        <p class="text-sm text-gray-400 leading-relaxed">${agent.summary}</p>
+        <div class="hidden mt-5 pt-5 border-t border-border" id="details-${key}">
+          <div class="space-y-3 text-sm">
+            <div><span class="text-gray-500 font-medium">Best for:</span> <span class="text-gray-300">${agent.best_for}</span></div>
+            <div><span class="text-gray-500 font-medium">Limitations:</span> <span class="text-gray-300">${agent.limitations}</span></div>
+            <div><span class="text-gray-500 font-medium">Cost:</span> <span class="text-gray-300">${agent.cost}</span></div>
+            ${agent.persistence ? '<div><span class="text-gray-500 font-medium">Memory:</span> <span class="text-gray-300">Retains context across sessions</span></div>' : ''}
+          </div>
+        </div>
+      </div>`;
+  }
+
+  grid.innerHTML = html;
+}
+
+function toggleCard(key) {
+  const details = document.getElementById(`details-${key}`);
+  const chevron = document.getElementById(`chevron-${key}`);
+  if (!details) return;
+
+  if (openCard && openCard !== key) {
+    const prevDetails = document.getElementById(`details-${openCard}`);
+    const prevChevron = document.getElementById(`chevron-${openCard}`);
+    if (prevDetails) prevDetails.classList.add('hidden');
+    if (prevChevron) prevChevron.style.transform = '';
+  }
+
+  const isHidden = details.classList.contains('hidden');
+  details.classList.toggle('hidden');
+  chevron.style.transform = isHidden ? 'rotate(180deg)' : '';
+  openCard = isHidden ? key : null;
+}
+
+// ─── QUIZ ────────────────────────────────────────────────────────────────────
+
+const quizState = { currentStep: null, answers: [], result: null };
+
+function startQuiz() {
+  quizState.currentStep = 'step1';
+  quizState.answers = [];
+  quizState.result = null;
+  renderQuiz();
+}
+
+function renderQuiz() {
+  const container = document.getElementById('quiz-container');
+
+  if (!quizState.currentStep && !quizState.result) {
+    container.innerHTML = `
+      <div class="text-center py-12">
+        <p class="text-gray-400 mb-6 text-lg">1\u20132 questions. Takes under 30 seconds.</p>
+        <button class="quiz-start-btn bg-accent hover:bg-accent-light text-white font-semibold px-8 py-4 rounded-xl transition-colors text-lg cursor-pointer">Start the Quiz</button>
+      </div>`;
+    return;
+  }
+
+  if (quizState.result) {
+    renderResult(quizState.result);
+    return;
+  }
+
+  const step = QUIZ_TREE[quizState.currentStep];
+  if (!step) return;
+
+  let optionsHtml = '';
+  step.options.forEach((opt, i) => {
+    optionsHtml += `
+      <button class="quiz-option" data-option-index="${i}">
+        <div class="flex items-center gap-4">
+          <span class="text-2xl">${opt.icon}</span>
+          <span class="text-base font-medium text-gray-200">${opt.label}</span>
+        </div>
+      </button>`;
+  });
+
+  container.innerHTML = `
+    <div>
+      <div class="flex items-center justify-between mb-6">
+        <p class="text-sm text-gray-500">Step ${step.step} of ${step.totalSteps}</p>
+        ${step.step > 1 ? '<button class="quiz-back-btn text-sm text-gray-500 hover:text-gray-300 transition-colors cursor-pointer">\u2190 Back</button>' : ''}
+      </div>
+      <h3 class="text-xl md:text-2xl font-semibold mb-6">${step.question}</h3>
+      <div class="grid gap-3">${optionsHtml}</div>
+    </div>`;
+}
+
+function selectOption(stepId, option) {
+  quizState.answers.push({ step: stepId, choice: option.label });
+
+  if (option.next) {
+    quizState.currentStep = option.next;
+    renderQuiz();
+  } else if (option.result) {
+    quizState.currentStep = null;
+    quizState.result = option.result;
+    renderQuiz();
+  }
+}
+
+function renderResult(agentKeys) {
+  const container = document.getElementById('quiz-container');
+  const pitchKey = agentKeys.join(',');
+  const pitch = RESULT_PITCHES[pitchKey] || { complexity: '', pitch: '' };
+  const primary = AGENTS[agentKeys[0]];
+  const secondary = agentKeys.length > 1 ? AGENTS[agentKeys[1]] : null;
+
+  const primaryCat = CATEGORY_COLORS[primary.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
+
+  let html = `
+    <div>
+      <h3 class="text-2xl font-bold mb-6">Your Recommendation</h3>
+
+      <!-- Primary agent -->
+      <div class="border-2 border-accent rounded-xl p-6 mb-4">
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <h4 class="text-xl font-semibold text-white">${primary.name}</h4>
+          <span class="text-xs px-2.5 py-1 rounded-full ${primaryCat.bg} ${primaryCat.text} border ${primaryCat.border}">${primary.category}</span>
+        </div>
+        <p class="text-gray-300 mb-4">${primary.summary}</p>
+        <div class="space-y-2 text-sm">
+          <div><span class="text-gray-500 font-medium">Best for:</span> <span class="text-gray-300">${primary.best_for}</span></div>
+          <div><span class="text-gray-500 font-medium">Cost:</span> <span class="text-gray-300">${primary.cost}</span></div>
+        </div>
+      </div>`;
+
+  if (secondary) {
+    const secCat = CATEGORY_COLORS[secondary.category] || { bg: 'bg-gray-500/10', text: 'text-gray-400', border: 'border-gray-500/20' };
+    html += `
+      <!-- Secondary agent -->
+      <div class="border border-border rounded-xl p-6 mb-4">
+        <div class="flex flex-wrap items-center gap-3 mb-2">
+          <p class="text-xs text-gray-500 uppercase tracking-wider font-medium">Also Consider</p>
+        </div>
+        <div class="flex flex-wrap items-center gap-3 mb-3">
+          <h4 class="text-lg font-semibold text-white">${secondary.name}</h4>
+          <span class="text-xs px-2.5 py-1 rounded-full ${secCat.bg} ${secCat.text} border ${secCat.border}">${secondary.category}</span>
+        </div>
+        <p class="text-gray-400 text-sm">${secondary.summary}</p>
+      </div>`;
+  }
+
+  html += `
+      <!-- Complexity callout -->
+      <div class="bg-amber-500/5 border border-amber-500/20 rounded-xl p-5 mb-4">
+        <p class="text-sm text-amber-300"><span class="font-medium">Complexity:</span> ${pitch.complexity}</p>
+      </div>
+
+      <!-- Optemization pitch -->
+      <div class="bg-accent/5 border border-accent/20 rounded-xl p-5 mb-6">
+        <p class="text-sm text-accent-light">${pitch.pitch}</p>
+      </div>
+
+      <!-- CTAs -->
+      <div class="flex flex-col sm:flex-row gap-3">
+        <a href="https://optemization.com" target="_blank" rel="noopener" class="inline-block bg-accent hover:bg-accent-light text-white font-semibold px-6 py-3 rounded-xl transition-colors text-center">Need help implementing this?</a>
+        <button class="quiz-retake-btn border border-border hover:border-accent-light text-gray-400 hover:text-white font-semibold px-6 py-3 rounded-xl transition-colors cursor-pointer">Retake Quiz</button>
+      </div>
+    </div>`;
+
+  container.innerHTML = html;
+}
+
+// ─── EVENT WIRING ────────────────────────────────────────────────────────────
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderDirectory();
+  renderQuiz();
+
+  // Directory card clicks
+  document.getElementById('agent-grid').addEventListener('click', (e) => {
+    const card = e.target.closest('[data-card-key]');
+    if (card) toggleCard(card.dataset.cardKey);
+  });
+
+  // Quiz event delegation
+  document.getElementById('quiz-container').addEventListener('click', (e) => {
+    // Start button
+    if (e.target.closest('.quiz-start-btn')) {
+      startQuiz();
+      return;
+    }
+
+    // Retake button
+    if (e.target.closest('.quiz-retake-btn')) {
+      startQuiz();
+      return;
+    }
+
+    // Back button
+    if (e.target.closest('.quiz-back-btn')) {
+      quizState.answers.pop();
+      quizState.currentStep = quizState.answers.length === 0 ? 'step1' : null;
+      // Recalculate from answers
+      if (quizState.answers.length === 0) {
+        quizState.currentStep = 'step1';
+      }
+      quizState.result = null;
+      renderQuiz();
+      return;
+    }
+
+    // Option selection
+    const optBtn = e.target.closest('[data-option-index]');
+    if (optBtn && quizState.currentStep) {
+      const idx = parseInt(optBtn.dataset.optionIndex);
+      const step = QUIZ_TREE[quizState.currentStep];
+      if (step && step.options[idx]) {
+        selectOption(quizState.currentStep, step.options[idx]);
+      }
+    }
+  });
+});
+</script>
+
+</body>
+</html>
