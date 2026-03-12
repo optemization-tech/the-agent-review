@@ -1,0 +1,7 @@
+name = "agent-review-proxy"
+main = "index.js"
+compatibility_date = "2024-09-23"
+account_id = "d17eeb9d349eccb2207f2aa6a521074f"
+
+[vars]
+ALLOWED_ORIGIN = "https://theagentreview.ai"

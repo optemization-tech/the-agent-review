@@ -1,0 +1,311 @@
+{
+  "agents": {
+    "manus": {
+      "name": "Manus (Meta)",
+      "category": "Paid Ads",
+      "summary": "Embedded inside Meta Ads Manager since Feb 2026. Handles report building, audience research, competitor analysis. Already in your ad account — no setup.",
+      "best_for": "Meta advertisers who want automated reporting and competitive intel",
+      "limitations": "Meta-only, currently prone to hallucination, opaque data layer",
+      "cost": "Included with Meta Ads Manager",
+      "technical_level": "none",
+      "persistence": false,
+      "setup_url": "https://adsmanager.facebook.com",
+      "starter_prompt": "Show me a performance breakdown of my top 5 ad sets this month, including cost per result and ROAS. Flag any that are underperforming compared to last month.",
+      "getting_started_steps": [
+        "Open Meta Ads Manager (link above)",
+        "Look for the AI assistant icon in the top navigation",
+        "Click it and paste the prompt below",
+        "Review the generated report and ask follow-up questions"
+      ],
+      "suggested_prompts": [
+        "Analyze my ad spend this month and flag underperforming campaigns",
+        "Research my top 3 competitors' ad strategies",
+        "Build a weekly performance report I can share with my team",
+        "Suggest audience segments I should test based on my best-performing ads"
+      ]
+    },
+    "claude_cowork": {
+      "name": "Claude Cowork",
+      "category": "Desktop / File Workflows",
+      "summary": "Sandboxed desktop agent for document and file automation. You define a folder, describe an outcome, it executes multi-step tasks. Built by Anthropic.",
+      "best_for": "Knowledge workers automating document-heavy workflows without touching a terminal",
+      "limitations": "No persistent memory between sessions, no messaging app integration, requires Pro/Max plan",
+      "cost": "$20–100/mo (Claude Pro or Max)",
+      "technical_level": "low",
+      "persistence": false,
+      "setup_url": "https://claude.ai/download",
+      "starter_prompt": "Go through the files in this folder and create a summary document that lists each file's purpose, key findings, and any action items mentioned. Output as a single markdown file.",
+      "getting_started_steps": [
+        "Download Claude Desktop (link above)",
+        "Sign up for Claude Pro or Max",
+        "Open Claude Desktop and select a folder to work with",
+        "Paste the prompt below and describe your task",
+        "Review the output and iterate"
+      ],
+      "suggested_prompts": [
+        "Summarize all the documents in this folder into a one-page brief",
+        "Extract action items from these meeting notes and organize by owner",
+        "Reformat these reports into a consistent template",
+        "Compare these two contracts and highlight the differences"
+      ]
+    },
+    "openclaw": {
+      "name": "OpenClaw",
+      "category": "Always-On Automation",
+      "summary": "Open-source 24/7 agent running on your machine or a VPS. Communicates via WhatsApp, Telegram, Slack, iMessage. Persistent memory across weeks. Model-agnostic.",
+      "best_for": "Always-on personal or business automation, cross-app life OS, technical users",
+      "limitations": "Real security risks (prompt injection, malicious community skills), requires Docker/VPS setup",
+      "cost": "Free software + API costs ($5–150/mo)",
+      "technical_level": "high",
+      "persistence": true,
+      "setup_url": "https://github.com/ArcadeAI/OpenClaw",
+      "starter_prompt": "Every morning at 8am, check my calendar for today's meetings, summarize any prep materials, and send me a briefing via Slack with agenda items and key context for each meeting.",
+      "getting_started_steps": [
+        "Visit the GitHub repo (link above)",
+        "Follow the Docker setup guide in the README",
+        "Connect your messaging platform (Slack, Telegram, etc.)",
+        "Configure your API keys for your preferred AI model",
+        "Send it the prompt below via your connected messenger"
+      ],
+      "suggested_prompts": [
+        "Monitor my email for meeting invites and auto-add prep notes to my calendar",
+        "Every Friday, compile a weekly summary of my Slack channels and send it to me",
+        "When I message you a contact name, pull their latest interactions from my CRM",
+        "Track my team's standup messages and flag any blockers to me immediately"
+      ]
+    },
+    "notion_custom_agents": {
+      "name": "Notion Custom Agents",
+      "category": "Knowledge Management",
+      "summary": "Agent layer inside Notion that pulls workspace context and runs multi-step tasks across connected integrations.",
+      "best_for": "Teams already living in Notion who want agentic workflows without leaving the ecosystem",
+      "limitations": "Notion Business plan required, degrades at 10k+ rows, limited to Notion ecosystem",
+      "cost": "Included in Notion Business plan",
+      "technical_level": "low",
+      "persistence": false,
+      "setup_url": "https://www.notion.so/product/agents",
+      "starter_prompt": "Review my project tracker database and identify any tasks that are overdue or at risk. For each one, draft a follow-up message to the assignee asking for a status update.",
+      "getting_started_steps": [
+        "Make sure you're on a Notion Business plan",
+        "Go to Settings > Agents in your Notion workspace",
+        "Create a new custom agent",
+        "Give it access to your relevant databases",
+        "Paste the prompt below as the agent's first instruction"
+      ],
+      "suggested_prompts": [
+        "Scan my project tracker for overdue tasks and draft follow-up messages",
+        "Create a weekly status report from my team's task updates",
+        "When a new item is added to the inbox database, triage and assign it",
+        "Summarize all meeting notes from this week and extract action items"
+      ]
+    },
+    "claude_code": {
+      "name": "Claude Code",
+      "category": "Software Development",
+      "summary": "Terminal-native coding agent by Anthropic. Deep code reasoning, best-in-class for multi-file refactors. Lives in your terminal or IDE.",
+      "best_for": "Developers doing complex code work, refactoring, or building agentic applications",
+      "limitations": "Developer-only, no persistent memory between sessions",
+      "cost": "Included with Claude Max ($100/mo) or API",
+      "technical_level": "developer",
+      "persistence": false,
+      "setup_url": "https://docs.anthropic.com/en/docs/claude-code/overview",
+      "starter_prompt": "Explore this codebase and give me a high-level architecture overview. Then identify the top 3 areas where code quality could be improved, with specific suggestions.",
+      "getting_started_steps": [
+        "Install Claude Code: npm install -g @anthropic-ai/claude-code",
+        "Subscribe to Claude Max ($100/mo) or set up API billing",
+        "Open your terminal in your project directory",
+        "Run 'claude' to start a session",
+        "Paste the prompt below"
+      ],
+      "suggested_prompts": [
+        "Explore this repo and explain the architecture",
+        "Refactor this module to use dependency injection",
+        "Write tests for all untested functions in src/",
+        "Find and fix all security vulnerabilities in this codebase"
+      ]
+    },
+    "codex": {
+      "name": "Codex (OpenAI)",
+      "category": "Software Development",
+      "summary": "Cloud-first coding agent by OpenAI. Strong on long-horizon planning and parallel subtasks.",
+      "best_for": "Developers in the OpenAI ecosystem, complex multi-file architectures",
+      "limitations": "Cloud-only, local CLI lags Claude Code on latency",
+      "cost": "ChatGPT Pro or API",
+      "technical_level": "developer",
+      "persistence": false,
+      "setup_url": "https://chatgpt.com/codex",
+      "starter_prompt": "Analyze this repository structure and create a detailed plan to add a REST API layer. Include routing, middleware, error handling, and tests.",
+      "getting_started_steps": [
+        "Subscribe to ChatGPT Pro",
+        "Go to chatgpt.com/codex (link above)",
+        "Connect your GitHub repository",
+        "Paste the prompt below to start a task",
+        "Review the generated PR when complete"
+      ],
+      "suggested_prompts": [
+        "Add comprehensive test coverage to this project",
+        "Refactor the database layer to use connection pooling",
+        "Create a CI/CD pipeline for this project",
+        "Migrate this codebase from JavaScript to TypeScript"
+      ]
+    },
+    "perplexity_computer": {
+      "name": "Perplexity Computer",
+      "category": "Research / Cross-Platform",
+      "summary": "General-purpose digital worker that routes tasks across 19 AI models. Designed for long-running research and cross-app work.",
+      "best_for": "Deep research, competitive intelligence, cross-platform tasks where you want the best model per subtask",
+      "limitations": "Plans start at $200+/mo with additional AI credits",
+      "cost": "$200+/mo",
+      "technical_level": "low",
+      "persistence": true,
+      "setup_url": "https://www.perplexity.ai/hub/computer",
+      "starter_prompt": "Research the top 10 competitors in [your industry]. For each, compile: pricing model, key features, recent product launches, and estimated market share. Output as a comparison table.",
+      "getting_started_steps": [
+        "Sign up at perplexity.ai (link above)",
+        "Subscribe to a plan with Computer access ($200+/mo)",
+        "Open a new Computer session",
+        "Paste the prompt below (replace [your industry] with yours)",
+        "Let it run — this can take 10-30 minutes for deep research"
+      ],
+      "suggested_prompts": [
+        "Research our top 10 competitors and build a comparison matrix",
+        "Find all recent funding announcements in [industry] from the last 30 days",
+        "Compile a market landscape report with pricing, features, and positioning",
+        "Monitor these 5 company blogs and summarize any product updates weekly"
+      ]
+    },
+    "n8n_custom": {
+      "name": "Custom Agent (n8n + Claude API)",
+      "category": "Custom / Enterprise",
+      "summary": "Build your own agent orchestration layer using n8n workflows + Claude API. Full control over logic, memory, integrations, and triggers.",
+      "best_for": "Businesses with specific workflows that no off-the-shelf tool handles well",
+      "limitations": "Requires design and build time — this is a project, not a product",
+      "cost": "n8n license + API costs (varies)",
+      "technical_level": "requires implementation partner",
+      "persistence": true,
+      "setup_url": "https://optemization.com",
+      "starter_prompt": "This agent is custom-built for your specific workflow. Contact Optemization to design the right system for your needs.",
+      "getting_started_steps": [
+        "Visit optemization.com (link above)",
+        "Book a discovery call to discuss your workflow needs",
+        "We'll design the agent architecture together",
+        "We build and deploy the system on n8n + Claude API",
+        "You get a custom agent that compounds over time"
+      ],
+      "suggested_prompts": [
+        "When a new lead comes in via Typeform, enrich it with Clearbit data, score it, and route to the right sales rep in Slack",
+        "Every Monday, pull data from 3 tools, generate a board report, and draft an email to investors",
+        "Monitor customer support tickets for escalation patterns and alert the team lead",
+        "Automatically process inbound contracts: extract key terms, flag risks, and route for approval"
+      ]
+    }
+  },
+  "quiz": {
+    "tasks": [
+      {
+        "label": "Chasing my team for status updates",
+        "icon": "📋",
+        "agent_scores": { "notion_custom_agents": 3, "n8n_custom": 2, "openclaw": 1 }
+      },
+      {
+        "label": "Researching stuff and summarizing it",
+        "icon": "🔍",
+        "agent_scores": { "perplexity_computer": 3, "claude_cowork": 2, "notion_custom_agents": 1 }
+      },
+      {
+        "label": "Managing Meta ad campaigns",
+        "icon": "📢",
+        "agent_scores": { "manus": 3 }
+      },
+      {
+        "label": "Sending outbound and following up",
+        "icon": "📧",
+        "agent_scores": { "n8n_custom": 3, "openclaw": 2 }
+      },
+      {
+        "label": "Prepping for meetings and following up after",
+        "icon": "🤝",
+        "agent_scores": { "notion_custom_agents": 2, "claude_cowork": 2, "openclaw": 2, "n8n_custom": 1 }
+      },
+      {
+        "label": "Actually reaching inbox zero",
+        "icon": "📬",
+        "agent_scores": { "openclaw": 3, "n8n_custom": 2 }
+      },
+      {
+        "label": "Building reports from scattered data",
+        "icon": "📊",
+        "agent_scores": { "n8n_custom": 3, "perplexity_computer": 2, "notion_custom_agents": 1 }
+      },
+      {
+        "label": "Drowning in Slack messages",
+        "icon": "💬",
+        "agent_scores": { "openclaw": 3, "n8n_custom": 2, "notion_custom_agents": 1 }
+      }
+    ],
+    "tools": [
+      { "label": "Notion", "icon": "📓", "agent_scores": { "notion_custom_agents": 3, "n8n_custom": 1 } },
+      { "label": "Google Workspace", "icon": "📧", "agent_scores": { "claude_cowork": 2, "openclaw": 1 } },
+      { "label": "Slack", "icon": "💬", "agent_scores": { "openclaw": 2, "n8n_custom": 2, "notion_custom_agents": 1 } },
+      { "label": "Meta Ads Manager", "icon": "📢", "agent_scores": { "manus": 3 } },
+      { "label": "Salesforce / HubSpot", "icon": "📊", "agent_scores": { "n8n_custom": 3, "perplexity_computer": 1 } },
+      { "label": "Others / none of these", "icon": "🤷", "agent_scores": {} }
+    ],
+    "api_config": {
+      "system_prompt_template": "You are an AI agent recommendation engine for The Agent Review. You help business users (non-technical: Chiefs of Staff, VP Ops, COOs, CEOs) find the right AI agent tool.\n\nHere is the complete knowledge base of agents:\n{{agents_json}}\n\nThe user selected these tasks they want to automate:\n{{selected_tasks}}\n\nThe user already uses these tools:\n{{selected_tools}}\n\nThe user's description of what they want:\n{{user_text}}\n\nBased on our scoring, the top recommended agent is: {{top_agent}}\n\nGenerate a JSON response with exactly two keys:\n- \"recommendation\": A 2-3 sentence personalized paragraph explaining why this specific agent is the best fit for THEIR described needs. Be specific to what they wrote, not generic. Write in second person (\"you\").\n- \"starter_prompt\": A ready-to-paste prompt they can copy directly into the recommended tool to start working on their described task immediately. Make it specific to their input.\n\nRespond ONLY with valid JSON. No markdown, no code fences.",
+      "model": "claude-sonnet-4-20250514",
+      "max_tokens": 500,
+      "enabled": true
+    }
+  },
+  "pitches": {
+    "manus": {
+      "complexity": "Manus is already in your Meta Ads Manager — zero setup.",
+      "pitch": "We help teams integrate AI agents into their existing marketing stack so nothing falls through the cracks."
+    },
+    "claude_cowork": {
+      "complexity": "Sign up for Claude Pro or Max and you're running in minutes.",
+      "pitch": "We can define the workflows, build the skills, and set up the guardrails so this runs reliably."
+    },
+    "openclaw": {
+      "complexity": "Requires Docker or a VPS, API keys, and comfort with config files. Plan for an afternoon of setup.",
+      "pitch": "We can define the workflows, build the skills, and set up the guardrails so this runs reliably."
+    },
+    "notion_custom_agents": {
+      "complexity": "Available now on Notion Business. Turn it on in settings and start building agents.",
+      "pitch": "We've designed agent-ready Notion workspaces for 80+ clients. We know where the edges are."
+    },
+    "claude_code": {
+      "complexity": "Install the CLI, connect your API key, and start coding. Developer setup takes 10 minutes.",
+      "pitch": "We use Claude Code daily to build agentic systems for clients. We can help you get the most out of it."
+    },
+    "codex": {
+      "complexity": "Available through ChatGPT Pro or the OpenAI API. Cloud-first — no local install needed.",
+      "pitch": "We're model-agnostic. If your team is in the OpenAI ecosystem, we'll build on top of it."
+    },
+    "perplexity_computer": {
+      "complexity": "Sign up for Perplexity's Computer plan. Cloud-based — no local install needed.",
+      "pitch": "We help teams pick the right combination of tools and integrate them into a single workflow."
+    },
+    "n8n_custom": {
+      "complexity": "This requires custom architecture — it's a project, not a product. Plan for weeks, not hours.",
+      "pitch": "This is exactly what we build. We design the architecture so your agent actually compounds over time."
+    }
+  },
+  "category_colors": {
+    "Paid Ads": { "bg": "bg-rose-500/10", "text": "text-rose-400", "border": "border-rose-500/20" },
+    "Desktop / File Workflows": { "bg": "bg-blue-500/10", "text": "text-blue-400", "border": "border-blue-500/20" },
+    "Always-On Automation": { "bg": "bg-amber-500/10", "text": "text-amber-400", "border": "border-amber-500/20" },
+    "Knowledge Management": { "bg": "bg-emerald-500/10", "text": "text-emerald-400", "border": "border-emerald-500/20" },
+    "Software Development": { "bg": "bg-violet-500/10", "text": "text-violet-400", "border": "border-violet-500/20" },
+    "Research / Cross-Platform": { "bg": "bg-cyan-500/10", "text": "text-cyan-400", "border": "border-cyan-500/20" },
+    "Custom / Enterprise": { "bg": "bg-orange-500/10", "text": "text-orange-400", "border": "border-orange-500/20" }
+  },
+  "tech_labels": {
+    "none": { "label": "No setup required", "bg": "bg-emerald-500/10", "text": "text-emerald-400" },
+    "low": { "label": "Low technical", "bg": "bg-blue-500/10", "text": "text-blue-400" },
+    "high": { "label": "Technical setup", "bg": "bg-amber-500/10", "text": "text-amber-400" },
+    "developer": { "label": "Developer tool", "bg": "bg-violet-500/10", "text": "text-violet-400" },
+    "requires implementation partner": { "label": "Needs implementation partner", "bg": "bg-orange-500/10", "text": "text-orange-400" }
+  }
+}
