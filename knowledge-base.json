@@ -174,6 +174,56 @@
         "Monitor these 5 company blogs and summarize any product updates weekly"
       ]
     },
+    "cofounder": {
+      "name": "Cofounder",
+      "category": "Always-On Automation",
+      "summary": "Natural language automation platform that connects 80+ tools. Describe what you want in plain English and it builds the workflow. Persistent memory that learns your business over time.",
+      "best_for": "Founders and ops leaders who want to automate cross-tool workflows without writing code",
+      "limitations": "Credit-based usage can add up for heavy use, newer platform with smaller community than alternatives",
+      "cost": "Free trial (3K credits), Pro $40/mo",
+      "technical_level": "low",
+      "persistence": true,
+      "setup_url": "https://app.cofounder.co",
+      "starter_prompt": "Connect to my Gmail, Slack, and calendar. Every morning at 8am, send me a briefing in Slack with today's meetings, any emails that need a response, and my top 3 priorities from yesterday's unfinished tasks.",
+      "getting_started_steps": [
+        "Sign up at app.cofounder.co (link above)",
+        "Connect your key tools (Gmail, Slack, calendar, etc.)",
+        "Describe your first automation in plain English",
+        "Review and approve the workflow it creates",
+        "Let it run — it learns and improves over time"
+      ],
+      "suggested_prompts": [
+        "Every morning, send me a Slack briefing with today's meetings and unread emails that need responses",
+        "When a new lead fills out our form, research their company and add a summary to our CRM",
+        "Monitor our GitHub repos and post a weekly engineering status update in Slack",
+        "Track competitor pricing pages and alert me when anything changes"
+      ]
+    },
+    "poke": {
+      "name": "Poke",
+      "category": "Always-On Automation",
+      "summary": "AI assistant that lives in your iMessage or SMS. Connects to your email and calendar, then proactively nudges you about tasks, meetings, and follow-ups. Executes actions through simple text replies.",
+      "best_for": "Busy executives who want an always-on assistant in their messaging app without installing anything new",
+      "limitations": "Currently banned on WhatsApp (Meta antitrust), limited to iMessage/SMS, no team features yet",
+      "cost": "$5–50/mo (negotiable with the bot)",
+      "technical_level": "none",
+      "persistence": true,
+      "setup_url": "https://poke.com",
+      "starter_prompt": "Connect to my email and calendar. Every morning, text me a summary of today's meetings with prep notes. Flag any emails I haven't responded to in 24+ hours.",
+      "getting_started_steps": [
+        "Visit poke.com (link above) and get started",
+        "Grant access to your email and calendar",
+        "Poke will text you — just reply like you're texting a friend",
+        "Tell it what you want help with (or paste the prompt below)",
+        "It learns your patterns and starts nudging you proactively"
+      ],
+      "suggested_prompts": [
+        "Every morning, text me my schedule with prep notes for each meeting",
+        "Flag any emails I haven't replied to in over 24 hours",
+        "When I get a meeting invite, research the attendees and text me a quick brief",
+        "Remind me to follow up with anyone I met this week by Friday"
+      ]
+    },
     "n8n_custom": {
       "name": "Custom Agent (n8n + Claude API)",
       "category": "Custom / Enterprise",
@@ -205,12 +255,12 @@
       {
         "label": "Chasing my team for status updates",
         "icon": "📋",
-        "agent_scores": { "notion_custom_agents": 3, "n8n_custom": 2, "openclaw": 1 }
+        "agent_scores": { "notion_custom_agents": 3, "n8n_custom": 2, "cofounder": 2, "openclaw": 1 }
       },
       {
         "label": "Researching stuff and summarizing it",
         "icon": "🔍",
-        "agent_scores": { "perplexity_computer": 3, "claude_cowork": 2, "notion_custom_agents": 1 }
+        "agent_scores": { "perplexity_computer": 3, "claude_cowork": 2, "cofounder": 1, "notion_custom_agents": 1 }
       },
       {
         "label": "Managing Meta ad campaigns",
@@ -220,33 +270,33 @@
       {
         "label": "Sending outbound and following up",
         "icon": "📧",
-        "agent_scores": { "n8n_custom": 3, "openclaw": 2 }
+        "agent_scores": { "n8n_custom": 3, "openclaw": 2, "cofounder": 2 }
       },
       {
         "label": "Prepping for meetings and following up after",
         "icon": "🤝",
-        "agent_scores": { "notion_custom_agents": 2, "claude_cowork": 2, "openclaw": 2, "n8n_custom": 1 }
+        "agent_scores": { "notion_custom_agents": 2, "claude_cowork": 2, "openclaw": 2, "poke": 2, "cofounder": 1, "n8n_custom": 1 }
       },
       {
         "label": "Actually reaching inbox zero",
         "icon": "📬",
-        "agent_scores": { "openclaw": 3, "n8n_custom": 2 }
+        "agent_scores": { "openclaw": 3, "poke": 3, "n8n_custom": 2, "cofounder": 1 }
       },
       {
         "label": "Building reports from scattered data",
         "icon": "📊",
-        "agent_scores": { "n8n_custom": 3, "perplexity_computer": 2, "notion_custom_agents": 1 }
+        "agent_scores": { "n8n_custom": 3, "perplexity_computer": 2, "cofounder": 2, "notion_custom_agents": 1 }
       },
       {
         "label": "Drowning in Slack messages",
         "icon": "💬",
-        "agent_scores": { "openclaw": 3, "n8n_custom": 2, "notion_custom_agents": 1 }
+        "agent_scores": { "openclaw": 3, "n8n_custom": 2, "cofounder": 1, "notion_custom_agents": 1 }
       }
     ],
     "tools": [
-      { "label": "Notion", "icon": "📓", "agent_scores": { "notion_custom_agents": 3, "n8n_custom": 1 } },
-      { "label": "Google Workspace", "icon": "📧", "agent_scores": { "claude_cowork": 2, "openclaw": 1 } },
-      { "label": "Slack", "icon": "💬", "agent_scores": { "openclaw": 2, "n8n_custom": 2, "notion_custom_agents": 1 } },
+      { "label": "Notion", "icon": "📓", "agent_scores": { "notion_custom_agents": 3, "cofounder": 1, "n8n_custom": 1 } },
+      { "label": "Google Workspace", "icon": "📧", "agent_scores": { "claude_cowork": 2, "poke": 2, "cofounder": 2, "openclaw": 1 } },
+      { "label": "Slack", "icon": "💬", "agent_scores": { "openclaw": 2, "n8n_custom": 2, "cofounder": 2, "notion_custom_agents": 1 } },
       { "label": "Meta Ads Manager", "icon": "📢", "agent_scores": { "manus": 3 } },
       { "label": "Salesforce / HubSpot", "icon": "📊", "agent_scores": { "n8n_custom": 3, "perplexity_computer": 1 } },
       { "label": "Others / none of these", "icon": "🤷", "agent_scores": {} }
@@ -286,6 +336,14 @@
     "perplexity_computer": {
       "complexity": "Sign up for Perplexity's Computer plan. Cloud-based — no local install needed.",
       "pitch": "We help teams pick the right combination of tools and integrate them into a single workflow."
+    },
+    "cofounder": {
+      "complexity": "Sign up, connect your tools, and describe your first workflow. Running in under 10 minutes.",
+      "pitch": "We can help you design the right automations and make sure your Cofounder setup scales as your team grows."
+    },
+    "poke": {
+      "complexity": "Text the number or sign up online. Grant email/calendar access. That's it — no app to install.",
+      "pitch": "We help teams figure out which AI tools fit where, and make sure they actually get adopted."
     },
     "n8n_custom": {
       "complexity": "This requires custom architecture — it's a project, not a product. Plan for weeks, not hours.",
