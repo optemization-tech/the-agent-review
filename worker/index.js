@@ -1,5 +1,5 @@
 // The KB URL — Worker fetches this server-side so the client never sends sensitive data
-const KB_URL = 'https://optemization.github.io/the-agent-review/knowledge-base.json';
+const KB_URL = 'https://theagentreview.ai/knowledge-base.json';
 
 // System prompt template — lives server-side, not sent from client
 const SYSTEM_PROMPT_TEMPLATE = `You are an AI agent recommendation engine for The Agent Review. You help business users (non-technical: Chiefs of Staff, VP Ops, COOs, CEOs) find the right AI agent tool.
